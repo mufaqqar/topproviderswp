@@ -14,8 +14,7 @@
 
     get_header();
      
-    $zip_codes_to_search = get_zipcodes_by_city($qcity);
-    // $city = FormatData($qcity);
+    $zip_codes_to_search = get_zipcodes_by_city($city);
     $provider_ids = create_meta_query_for_zipcodes($zip_codes_to_search, $type);  
     $fast_provider_details = Fast_Provider_Details($provider_ids);
     $cheap_provider_details = Cheap_provider_details($provider_ids);
@@ -83,9 +82,9 @@
     <div class="container mx-auto px-4">
         <div class="flex justify-center flex-col items-center">
             <h1 class="sm:text-5xl text-2xl font-bold text-center max-w-[850px] mx-auto capitalize leading-10">
-                <?php echo FormatData($type) ?> Providers in <?php echo FormatData($state) ?> <span class="text-[#96B93A]"><?php echo FormatData($city) ?></span>
+                <?php echo esc_html(FormatData($type)) ?> Providers in <?php echo esc_html(FormatData($state)) ?> <span class="text-[#96B93A]"><?php echo esc_html(FormatData($city)) ?></span>
             </h1>
-            <p class="text-xl text-center font-[Roboto] my-5">Enter your zip so we can find the best <?php echo FormatData($type) ?>
+            <p class="text-xl text-center font-[Roboto] my-5">Enter your zip so we can find the best <?php echo esc_html(FormatData($type)) ?>
                 Providers in your area:</p>
             <div class="!max-w-[712px] w-full bg-white z-30 rounded-2xl mx-auto">
                 <?php get_template_part('template-parts/search', 'form'); ?>
@@ -99,8 +98,8 @@
 <section class="my-16">
     <div class="container mx-auto px-4">
         <div class="mb-10">
-            <h2 class="text-2xl text-center md:text-left font-bold capitalize leading-10"><?php echo $type ?> Providers in <?php echo FormatData($state);?>
-                <span class="text-[#96B93A]"><?php echo FormatData($city)?> </span>
+            <h2 class="text-2xl text-center md:text-left font-bold capitalize leading-10"><?php echo esc_html($type) ?> Providers in <?php echo esc_html(FormatData($state));?>
+                <span class="text-[#96B93A]"><?php echo esc_html(FormatData($city))?> </span>
             </h2>
         </div>
         <div class="mb-7 flex sm:flex-row gap-4 flex-col justify-between items-center">
@@ -119,6 +118,7 @@
         <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             <?php
                 if ($query->have_posts()) {
+                    $i = 0;
                     while ($query->have_posts()) {
                         $query->the_post();
                         $i++;
@@ -150,12 +150,12 @@
             <div class="container mx-auto px-4">
                 <div class="mb-5">
                     <h2 class="text-2xl font-bold capitalize leading-10">How We Measure Home Phone Providers in <span
-                    class="text-[#96B93A]"><?php echo $city ?>, <?php echo $state ?> </span></h2>
+                    class="text-[#96B93A]"><?php echo esc_html($city) ?>, <?php echo esc_html($state) ?> </span></h2>
                     <div class="mt-1">
                         <p>Offering a cheap home phone line isn’t enough to convince our professional team at Top Providers of a provider’s quality. We look at a number of amenities and services to ensure you are only getting the best landline phone service. That may include any combination of: </p>
                         <ul class="__list pl-5 mt-2">
                             <li>
-                                <strong>Internet Requirements: </strong> Do the landline home phone service providers in <?php echo $city ?>, <?php echo $state ?>, require you to have internet access to install or use the lines being offered? 
+                                <strong>Internet Requirements: </strong> Do the landline home phone service providers in <?php echo esc_html($city) ?>, <?php echo esc_html($state) ?>, require you to have internet access to install or use the lines being offered? 
                             </li>
                             <li> <strong>Hidden Fees & Taxes:</strong> Does signing up for the landline home service providers mean paying hidden fees that increase over time or are there any local taxes not worked into the monthly price advertised? </li>
                             <li>
@@ -169,7 +169,7 @@
                             </li>
                         </ul>
                         <p class="mt-2">The last factor we consider when getting a landline is the company's amenities. Items like call forwarding, voicemail, caller ID, blocking spam calls, setting “do not disturb,” and similar features can make all the difference for your unique landline needs. </p>
-                        <p class="mt-2">Once we clearly understand these items, we rank the top home phone service providers in <?php echo $city ?>, <?php echo $state ?> for you to select at your leisure.
+                        <p class="mt-2">Once we clearly understand these items, we rank the top home phone service providers in <?php echo esc_html($city) ?>, <?php echo esc_html($state) ?> for you to select at your leisure.
                         </p>
                     </div>
                 </div>

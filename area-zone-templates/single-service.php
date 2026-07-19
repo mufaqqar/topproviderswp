@@ -8,8 +8,8 @@ $zipcode = $wp_query->query_vars['post_slug'];
 $type =$wp_query->query_vars['service'];
 
 
-add_filter('wpseo_title', 'Generate_Title');
-add_filter('wpseo_metadesc', 'Generate_Description');
+add_filter('wpseo_title', 'Generate_Title_For_Service');
+add_filter('wpseo_metadesc', 'Generate_Description_For_Service');
 add_filter('wpseo_canonical', 'Generate_Canonical');
 
 get_header();

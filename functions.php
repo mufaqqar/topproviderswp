@@ -42,6 +42,7 @@ add_action('wp_enqueue_scripts', 'enqueue_slick_slider_assets');
 		register_rest_route('custom/v1', '/providers', array(
 			'methods' => 'POST',
 			'callback' => 'custom_rest_endpoint_callback',
+			'permission_callback' => '__return_true',
 		));
 	}
 	add_action('rest_api_init', 'custom_rest_endpoint_init');
@@ -205,6 +206,7 @@ function register_custom_area_zone_endpoint() {
     register_rest_route( 'custom/v1', '/area-zones', array(
         'methods'  => 'GET',
         'callback' => 'custom_area_zone_endpoint',
+        'permission_callback' => '__return_true',
     ) );
 }
 
@@ -252,6 +254,7 @@ function register_city_area_zone_endpoint() {
     register_rest_route( 'custom/v1', '/area-zones-city', array(
         'methods'  => 'GET',
         'callback' => 'city_area_zone_endpoint',
+        'permission_callback' => '__return_true',
     ) );
 }
 
@@ -424,6 +427,7 @@ function handle_review_submission() {
     } else {
         wp_send_json_error('Missing required fields.');
     }
+    wp_die();
 }
 
 // Add AJAX actions for logged-in and non-logged-in users
@@ -432,23 +436,8 @@ add_action('wp_ajax_nopriv_submit_review', 'handle_review_submission');
 
 
 
-// Hook into WordPress initialization
-add_action('init', function() {
-    // Check for the save_xml query parameter
-    if (isset($_GET['save_xml']) && $_GET['save_xml'] == '1') {
-        $file_path = save_xml_file();
-        if ($file_path) {
-            echo "XML file saved to: " . esc_url($file_path);
-        } else {
-            echo "Failed to save XML file.";
-        }
-        exit; // Ensure no further output is sent
-    }
-});
 
-/**
- * Function to save XML file to the sitemaps directory
- */
+
 function save_xml_file() {
     // Define the path to the sitemaps directory
     $upload_dir = wp_upload_dir(); // Get the upload directory

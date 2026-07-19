@@ -137,10 +137,7 @@ function custom_flush_rewrite_rules() {
 add_action('after_switch_theme', 'custom_flush_rewrite_rules');
 
 
-add_action('init', function() {
-    custom_dynamic_rewrite_rules();
-    flush_rewrite_rules(); // Only for development purposes. Remove after testing.
-});
+
 
 
 function cbl_breadcrumb() {

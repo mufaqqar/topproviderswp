@@ -31,8 +31,9 @@ document.getElementById('dropdownButton').addEventListener('click', function () 
             event.preventDefault();
 
             const formData = new FormData(form);
+            var ajaxUrl = typeof ajax_object !== 'undefined' ? ajax_object.ajax_url : '/wp-admin/admin-ajax.php';
 
-            fetch(ajax_object.ajax_url, {
+            fetch(ajaxUrl, {
                 method: "POST",
                 body: formData,
             })

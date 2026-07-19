@@ -99,11 +99,11 @@ $query_fast = new WP_Query($query_args_fast);
     <div class="container mx-auto px-4">
         <div class="flex justify-center flex-col items-center">
             <h1 class="sm:text-5xl text-2xl font-bold text-center max-w-[850px] mx-auto capitalize leading-10">
-                <?php echo FormatData($type) ?> Providers in <br />
-                ZIP Code <span class="text-[#6041BB]"><?php echo $zipcode ?></span>
+                <?php echo esc_html(FormatData($type)) ?> Providers in <br />
+                ZIP Code <span class="text-[#6041BB]"><?php echo esc_html($zipcode) ?></span>
             </h1>
             <p class="text-xl text-center font-[Roboto] my-5">Enter your zip so we can find the best
-                <?php echo FormatData($type) ?> Providers in your area:
+                <?php echo esc_html(FormatData($type)) ?> Providers in your area:
             </p>
             <div class="!max-w-[712px] w-full bg-white z-30 rounded-2xl mx-auto">
                 <?php get_template_part('template-parts/search', 'form'); ?>
@@ -121,7 +121,7 @@ $query_fast = new WP_Query($query_args_fast);
     <div class="container mx-auto px-4">
         <div class="mb-10">
             <h2 class="text-2xl text-center md:text-left font-bold capitalize leading-10">
-                <?php echo FormatData($type)  ?> Providers in <span class="text-[#96B93A]"><?php echo $zipcode ?>
+                <?php echo esc_html(FormatData($type))  ?> Providers in <span class="text-[#96B93A]"><?php echo esc_html($zipcode) ?>
                 </span></h2>
         </div>
         <div class="mb-7 flex sm:flex-row gap-4 flex-col justify-between items-center">
@@ -170,8 +170,8 @@ $query_fast = new WP_Query($query_args_fast);
     <div class="container mx-auto px-4">
         <div class="mb-10">
             <h2 class="text-2xl font-bold capitalize leading-10">What are the Cheap
-                <?php echo str_replace(['-'], ' ', $type); ?> Providers in
-                <span class="text-[#96B93A]"><?php echo $zipcode ?>, <?php echo $state ?> </span>
+                <?php echo esc_html(str_replace(['-'], ' ', $type)); ?> Providers in
+                <span class="text-[#96B93A]"><?php echo esc_html($zipcode) ?>, <?php echo esc_html($state) ?> </span>
             </h2>
         </div>
         <div
@@ -202,6 +202,7 @@ $query_fast = new WP_Query($query_args_fast);
         <div class="grid">
             <?php
                 if ($query_cheep->have_posts()) {
+                    $i = 0;
                     while ($query_cheep->have_posts()) {
                         $query_cheep->the_post();
                         $i++;
@@ -230,8 +231,7 @@ $query_fast = new WP_Query($query_args_fast);
                     <div
                         class="border-l border-r border-b grid justify-center md:p-5 p-2 md:h-auto h-[120px] items-center">
                         <div>
-                            <p class="text-center md:text-base text-xs"><a target="_blank" href="/providers/xfinity">
-                                    <?php the_title()?> </a></p>
+                            <p class="text-center md:text-base text-xs"><?php the_title()?></p>
                         </div>
                     </div>
 
@@ -298,6 +298,7 @@ $query_fast = new WP_Query($query_args_fast);
         <div class="grid">
             <?php
                     if ($query_fast->have_posts()) {
+                        $i = 0;
                         while ($query_fast->have_posts()) {
                             $query_fast->the_post();
                             $i++;
@@ -692,10 +693,11 @@ $query_fast = new WP_Query($query_args_fast);
 
                         <?php
                             
-                                if ($query->have_posts()) {
-                                    while ($query->have_posts()) {
-                                        $query->the_post();
-                                        $i++;
+                            if ($query->have_posts()) {
+                                $i = 0;
+                                while ($query->have_posts()) {
+                                    $query->the_post();
+                                    $i++;
                                         set_query_var('provider_index', $i);
                                         $servicesInfo = get_field('services_info');
                                         $type = get_query_var('type');
@@ -715,8 +717,7 @@ $query_fast = new WP_Query($query_args_fast);
                             <div
                                 class="w-full md:border-r border-r-0  border-b grid justify-center md:p-5 p-2 md:h-auto h-[120px] items-center">
                                 <div>
-                                    <p class="text-center md:text-base text-xs"><a target="_blank"
-                                            href="/providers/hughesnet"> <?php the_title()?> </a> </p>
+                                    <p class="text-center md:text-base text-xs"><?php the_title()?></p>
                                 </div>
                             </div>
 
@@ -865,7 +866,7 @@ $query_fast = new WP_Query($query_args_fast);
                 elseif ($type === 'internet-tv'):
                     $faqs = $internet_tv;
                 else:
-                    $faqs = $home_security_faqs;
+                    $faqs = [];
                 endif;
 
                 // Loop through the FAQs array

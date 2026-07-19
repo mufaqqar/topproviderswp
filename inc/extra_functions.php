@@ -82,9 +82,6 @@ function tp_theme_setup() {
 			'script',
 		)
 	);
-    add_theme_support( 'title-tag' );
-
-
 }
 add_action( 'after_setup_theme', 'tp_theme_setup' );
 
