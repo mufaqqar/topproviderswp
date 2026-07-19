@@ -1,5 +1,27 @@
 <?php
 
+// Serve sitemap XML files from theme folder via WordPress
+add_action('init', function () {
+    $request_uri = $_SERVER['REQUEST_URI'] ?? '';
+    $path = parse_url($request_uri, PHP_URL_PATH);
+    $home = parse_url(home_url('/'), PHP_URL_PATH);
+
+    if ($home && strpos($path, $home) === 0) {
+        $path = substr($path, strlen($home) - 1);
+    }
+
+    if (preg_match('#^/sitemaps/.+\.xml$#i', $path)) {
+        $file = basename($path);
+        $file_path = _sitemap_path() . '/' . $file;
+
+        if (file_exists($file_path) && filesize($file_path) > 0) {
+            header('Content-Type: application/xml; charset=UTF-8');
+            header('X-Robots-Tag: noindex, follow');
+            readfile($file_path);
+            exit;
+        }
+    }
+});
 
 add_filter('wpseo_sitemap_index', function ($sitemap_index) {
     $current_date = gmdate('Y-m-d H:i +0 0:00');
