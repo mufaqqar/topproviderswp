@@ -109,6 +109,7 @@ get_template_part('template-parts/section/hero-banner');
         </div>
         <div class="grid-providers">
             <?php
+                $json_types = ['moving', 'solar', 'insurance', 'health-insurance'];
                 if ($query->have_posts()) {
                     $i = 0;
                     while ($query->have_posts()) {
@@ -117,10 +118,11 @@ get_template_part('template-parts/section/hero-banner');
                         set_query_var('provider_index', $i);     
                         get_template_part( 'template-parts/provider', 'card' );
                     }
+                } elseif (in_array($type, $json_types)) {
+                    render_providers_from_json($type);
                 } else {
                     echo 'No providers found with the specified zip codes.';
                 }                
-                // Reset post data
                 wp_reset_postdata();
             ?>
         </div>
@@ -193,7 +195,7 @@ get_template_part('template-parts/section/hero-banner');
             </div> 
         </section>
 
-    <?php }else{
+    <?php }elseif (!in_array($type, ['moving', 'solar', 'insurance', 'health-insurance'])){
         set_query_var('providers_query', $query_fast);get_template_part( 'template-parts/section/fast', 'providers' );
         set_query_var('providers_query', $query_compair); get_template_part( 'template-parts/section/compair', 'providers' );
         set_query_var('providers_query', $query);get_template_part( 'template-parts/section/summary', 'providers' );

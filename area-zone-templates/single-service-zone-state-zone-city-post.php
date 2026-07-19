@@ -14,8 +14,8 @@ add_filter('wpseo_metadesc', 'Generate_Description_For_Zipcode');
 add_filter('wpseo_canonical', 'Generate_Canonical_Tag', 10);
 get_header();
 
-   $zip_codes_to_search = get_zipcodes_by_city($city);
-    // $city = FormatData($qcity);
+$json_types = ['moving', 'solar', 'insurance', 'health-insurance'];
+    $zip_codes_to_search = get_zipcodes_by_city($city);
     $provider_ids = create_meta_query_for_zipcodes($zip_codes_to_search, $type);  
 
 ?>
@@ -140,17 +140,17 @@ $query_fast = new WP_Query($query_args_fast);
 
         <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             <?php
-            // Query the posts
                 $query = new WP_Query($args);
                 $i = 0;
                 if ($query->have_posts()) {
                     while ($query->have_posts()) { $query->the_post(); $i++; set_query_var('provider_index', $i);     
                         get_template_part( 'template-parts/provider', 'card' );
                     }
+                } elseif (in_array($type, $json_types)) {
+                    render_providers_from_json($type);
                 } else {
                     echo 'No providers found with the specified zip code.';
                 }
-                // Reset post data
                 wp_reset_postdata();
             ?>
         </div>
@@ -165,6 +165,7 @@ $query_fast = new WP_Query($query_args_fast);
 
 
 <!-- Cheep ZIP Sections -->
+<?php if (!in_array($type, $json_types)): ?>
 <section class="my-8">
     <div class="container mx-auto px-4">
         <div class="mb-10">
@@ -261,16 +262,14 @@ $query_fast = new WP_Query($query_args_fast);
                     wp_reset_postdata();
                 ?>
         </div>
+        </div>
     </div>
 </section>
+<?php endif; ?>
 
-
-
-
-
-<!-- What are the Best ZIP Section  -->
 
 <!-- Summary Of Providers -->
+<?php if (!in_array($type, $json_types)): ?>
 <section class="my-16">
     <div class="container mx-auto px-4">
         <div class="mb-10">
@@ -416,7 +415,7 @@ $query_fast = new WP_Query($query_args_fast);
         </div>
     </div>
 </section>
-
+<?php endif; ?>
 
 <?php
 $faqs = [];

@@ -3,7 +3,7 @@
 
 add_filter('wpseo_sitemap_index', function ($sitemap_index) {
     $base_url = 'https://topproviders.net/sitemaps/';
-    $types =  ['internet', 'tv', 'internet-tv'];
+    $types =  ['internet', 'tv', 'internet-tv', 'moving', 'solar', 'insurance', 'health-insurance', 'home-security'];
     $number_of_sitemaps = 2; // Generate 6 sitemaps for each type
     $prefixes = ['zipcode', 'cities']; // Define prefixes to loop through
 
@@ -40,7 +40,7 @@ function SiteMapByState() {
     $xml_content = '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL;
     $xml_content .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . PHP_EOL;
     // Types to iterate
-    $types =  ['internet', 'tv', 'internet-tv'] ;  
+    $types =  ['internet', 'tv', 'internet-tv', 'moving', 'solar', 'insurance', 'health-insurance', 'home-security'] ;  
     foreach ($types as $type) {
      
         $terms = get_terms(array(
@@ -71,7 +71,7 @@ function SiteMapByState() {
 // SiteMapByZipCode(); Sitemap for ZipCode
 function SiteMapByZipCode() {
     set_time_limit(0);
-    $services =  ['internet', 'tv', 'internet-tv'];
+    $services =  ['internet', 'tv', 'internet-tv', 'moving', 'solar', 'insurance', 'health-insurance', 'home-security'];
     $sitemap_folder = ABSPATH . 'sitemaps';
     $posts_per_file = 30000;
 
@@ -140,7 +140,7 @@ function SiteMapByZipCode() {
 
 function SiteMapByCity() {
     set_time_limit(0);
-    $services =  ['internet', 'tv', 'internet-tv'];
+    $services =  ['internet', 'tv', 'internet-tv', 'moving', 'solar', 'insurance', 'health-insurance', 'home-security'];
     $sitemap_folder = ABSPATH . 'sitemaps';
     $posts_per_file = 30000;
     $total_records = 0; // Initialize counter for total records

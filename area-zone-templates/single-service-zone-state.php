@@ -61,14 +61,17 @@ get_template_part('template-parts/section/hero-banner');
 
         <div class="grid-providers">
             <?php
-                if ($query->have_posts()) {
+                $json_types = ['moving', 'solar', 'insurance', 'health-insurance'];
+                if (isset($query) && $query->have_posts()) {
                     while ($query->have_posts()) { $query->the_post(); $i++; set_query_var('provider_index', $i);
                         get_template_part('template-parts/provider', 'card');
                     }
+                } elseif (in_array($type, $json_types)) {
+                    render_providers_from_json($type);
                 } else {
                     echo 'No providers found with the specified zip code.';
                 }
-                wp_reset_postdata();
+                if (isset($query)) wp_reset_postdata();
             ?>
         </div>
         <div><p class="disclaimer">*DISCLAIMER: Availability vary by service address. not all offers available in all areas, pricing subject to change at any time. Additional taxes, fees, and terms may apply.</p></div>
