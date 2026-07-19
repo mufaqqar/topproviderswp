@@ -8,7 +8,11 @@ function generate_custom_sitemap() {
     $zone_cities = get_terms(['taxonomy' => 'zone_city', 'hide_empty' => true]);
     $area_zone_posts = get_posts(['post_type' => 'area_zone', 'posts_per_page' => -1, 'fields' => 'ids']);
 
-    $file = fopen(ABSPATH . 'zone_sitemap.xml', 'w');
+    $dir = get_template_directory() . '/sitemaps';
+    if (!file_exists($dir)) {
+        mkdir($dir, 0755, true);
+    }
+    $file = fopen($dir . '/zone_sitemap.xml', 'w');
     fwrite($file, '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL);
     fwrite($file, '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . PHP_EOL);
 
