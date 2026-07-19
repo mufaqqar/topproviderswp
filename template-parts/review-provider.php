@@ -38,7 +38,7 @@
                                 $starSrc = get_bloginfo('template_directory') . '/images/trustpilot-star.png';
                                 $starClass = '';
                             }
-                            echo '<img src="' . $starSrc . '" class="lg:!w-10 lg:!h-10 md:!h-8 md:!w-8 h-5 w-5 ' . $starClass . '" />';
+                            echo '<img src="' . esc_url($starSrc) . '" alt="' . esc_attr($rating) . ' star rating" class="lg:!w-10 lg:!h-10 md:!h-8 md:!w-8 h-5 w-5 ' . esc_attr($starClass) . '" />';
                         }
                     ?>
                     <p class="font-semibold text-[#6A6A93] ml-1"><?php echo $rating; ?></p>

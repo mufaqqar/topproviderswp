@@ -91,8 +91,8 @@
             </div>
         </div>
     </div>
-    <img src="<?php echo get_template_directory_uri(); ?>/images/business.webp" class="absolute right-0 z-10 bottom-0 w-72"/>
-    <img src="<?php echo get_template_directory_uri(); ?>/images/wave1.png" class="absolute opacity-40 -left-60 -bottom-0 w-[800px]"/>
+    <img src="<?php echo get_template_directory_uri(); ?>/images/business.webp" alt="" class="absolute right-0 z-10 bottom-0 w-72"/>
+    <img src="<?php echo get_template_directory_uri(); ?>/images/wave1.png" alt="" class="absolute opacity-40 -left-60 -bottom-0 w-[800px]"/>
 </section>
 
 <section class="my-16">
@@ -179,7 +179,7 @@
             <div class="container mx-auto px-4">
                 <div class="mb-5">
                     <h2 class="text-2xl font-bold capitalize leading-10">Summary of Landline Home Phone Service Providers in <span
-                    class="text-[#96B93A]"><?php echo $city ?>, <?php echo $state ?> </span></h2>
+                    class="text-[#96B93A]"><?php echo esc_html($city) ?>, <?php echo esc_html($state) ?> </span></h2>
                     <div class="mt-1">
                         <p>The next time you’re moving to the area or need to set up a dedicated landline service for your side hustle, rely on our list of the top landline home service providers in the area. We do the hard work for you so you can quickly get a landline and move on with your day.</p>
                         <p class="mt-2">Whatever landline home service providers you choose, be sure to ask about bundled services. That is where our trained agents at Top Providers can help. Call us today, and we’ll compare all the available telephone service providers in your area, finding the best deal and assisting with the setup process. </p>
@@ -192,9 +192,9 @@
             <div class="container mx-auto px-4">
                 <div class="mb-5">
                     <h2 class="text-2xl font-bold capitalize leading-10">Get the Best Landline Phone Service in <span
-                    class="text-[#96B93A]"><?php echo $city ?>, <?php echo $state ?> </span></h2>
+                    class="text-[#96B93A]"><?php echo esc_html($city) ?>, <?php echo esc_html($state) ?> </span></h2>
                     <div class="mt-1">
-                        <p>Stop wasting time pouring through hours of overly hyped online marketing and get the trusted comparison our professional agents provide. At Top Providers, we save you time and money by uncovering the home phone service providers in <?php echo $city ?>, <?php echo $state ?> perfect for your unique personal and business needs. </p>
+                        <p>Stop wasting time pouring through hours of overly hyped online marketing and get the trusted comparison our professional agents provide. At Top Providers, we save you time and money by uncovering the home phone service providers in <?php echo esc_html($city) ?>, <?php echo esc_html($state) ?> perfect for your unique personal and business needs. </p>
                         <p class="mt-2">Call our agents today, and let’s find the perfect landline solution whether you’ve just moved to the area or need a 24/7 connection to friends, family, and emergency services. Together, we can find an affordable and amenity-rich telephone service provider you can count on. </p>
                     </div>
                 </div>

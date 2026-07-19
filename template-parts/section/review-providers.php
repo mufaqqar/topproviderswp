@@ -72,7 +72,7 @@
 
 <section class="container mx-auto px-4 mb-10">
     <h2 class="text-2xl font-bold mb-2 mt-5">
-        Reviews for <?php echo $type ?> in <span class="text-[#96B93A]"> <span class="capitalize"><?php echo $city ?></span></span>
+        Reviews for <?php echo esc_html($type) ?> in <span class="text-[#96B93A]"> <span class="capitalize"><?php echo esc_html($city) ?></span></span>
     </h2>
     <div class="mt-5">
         <?php

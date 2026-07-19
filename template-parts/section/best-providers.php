@@ -29,13 +29,13 @@
 <section class="my-16">
     <div class="container mx-auto px-4">
         <div class="">
-            <h2 class="text-2xl font-bold">Best <?php echo $type ?> Provider in <span
-                    class="text-[#96B93A]"><?php echo $city ?> <?php echo $state ?></span></h2>
+            <h2 class="text-2xl font-bold">Best <?php echo esc_html($type) ?> Provider in <span
+                    class="text-[#96B93A]"><?php echo esc_html($city) ?> <?php echo esc_html($state) ?></span></h2>
             <p class="PClass">
                  Top Providers hand picks <?php echo $fast_provider_details['title']; ?> as the best internet service
-                provider in <?php echo $city ?>. <?php echo $fast_provider_details['title']; ?> offers reliable high
+                provider in <?php echo esc_html($city) ?>. <?php echo $fast_provider_details['title']; ?> offers reliable high
                 speed internet service with robust download speed of up to {enter max download speed} Mbps. Their
-                monthly plans begins at {enter price} /mo making it an all-around popular choice for <?php echo $city ?>
+                monthly plans begins at {enter price} /mo making it an all-around popular choice for <?php echo esc_html($city) ?>
                 residents.
             </p>
             <p class="PClass">
@@ -50,8 +50,8 @@
 <section class="my-16">
     <div class="container mx-auto px-4">
         <div class="">
-            <h2 class="text-2xl font-bold">Best <?php echo $type ?> Service Providers in <span
-                    class="text-[#96B93A]"><?php echo $city ?> <?php echo $state ?></span></h2>
+            <h2 class="text-2xl font-bold">Best <?php echo esc_html($type) ?> Service Providers in <span
+                    class="text-[#96B93A]"><?php echo esc_html($city) ?> <?php echo esc_html($state) ?></span></h2>
             <p class="PClass">
             Top Providers choose {insert top rated phone provider} as the best home phone provider in {insert city
                 name}. {insert provider name} offers home phone service with variety of features such as Caller ID, Call
@@ -76,8 +76,8 @@
 <section class="my-16">
     <div class="container mx-auto px-4">
         <div class="">
-            <h2 class="text-2xl font-bold">Best <?php echo $type ?> Service Providers in <span
-                    class="text-[#96B93A]"><?php echo $city ?> <?php echo $state ?></span></h2>
+            <h2 class="text-2xl font-bold">Best <?php echo esc_html($type) ?> Service Providers in <span
+                    class="text-[#96B93A]"><?php echo esc_html($city) ?> <?php echo esc_html($state) ?></span></h2>
             <p class="PClass">
                 Home is where your comfort resides, and you shouldn’t let your peace of mind be compromised by
                 unexpected burglaries and intrusions. But how can you protect your belongings and loved ones from those
@@ -308,10 +308,10 @@
 <section class="my-16">
     <div class="container mx-auto px-4">
         <div class="">
-            <h2 class="text-2xl font-bold">Best Cable <?php echo $type ?> Providers in <span
-                    class="text-[#96B93A]"><?php echo $city ?> </span></h2>
+            <h2 class="text-2xl font-bold">Best Cable <?php echo esc_html($type) ?> Providers in <span
+                    class="text-[#96B93A]"><?php echo esc_html($city) ?> </span></h2>
 
-            <p class="PClass"> While Dish is present in <?php echo $city ?>, we recommend DIRECTV for you entertainment
+            <p class="PClass"> While Dish is present in <?php echo esc_html($city) ?>, we recommend DIRECTV for you entertainment
                 needs. DIRECTV offer a broad catalog of channels perfect for watching the latest local sports with
                 neighbors or recording your favorite shows while you’re out grocery shopping.</p>
 

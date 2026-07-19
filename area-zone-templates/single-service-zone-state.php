@@ -44,16 +44,16 @@ get_header();
      <div class="container mx-auto px-4">
          <div class="flex justify-center flex-col items-center">
              <h1 class="sm:text-5xl text-2xl font-bold text-center max-w-[850px] mx-auto capitalize leading-10">
-             <?php echo $type ?> Providers in <br /><span class="text-[#96B93A]"><?php echo $state ?></span>
+             <?php echo esc_html($type) ?> Providers in <br /><span class="text-[#96B93A]"><?php echo esc_html($state) ?></span>
              </h1>
-             <p class="text-xl text-center font-[Roboto] my-5">Enter your zip so we can find the best <?php echo $type ?> Providers in your area:</p>
+             <p class="text-xl text-center font-[Roboto] my-5">Enter your zip so we can find the best <?php echo esc_html($type) ?> Providers in your area:</p>
              <div class="!max-w-[712px] w-full bg-white z-30 rounded-2xl mx-auto">
                 <?php get_template_part('template-parts/search', 'form'); ?>
             </div>
          </div>
      </div>
-     <img src="<?php echo get_template_directory_uri(); ?>/images/business.webp" class="absolute right-0 z-10 bottom-0 w-72"/>
-    <img src="<?php echo get_template_directory_uri(); ?>/images/wave1.png" class="absolute opacity-40 -left-60 -bottom-0 w-[800px]"/>
+     <img src="<?php echo get_template_directory_uri(); ?>/images/business.webp" alt="" class="absolute right-0 z-10 bottom-0 w-72"/>
+    <img src="<?php echo get_template_directory_uri(); ?>/images/wave1.png" alt="" class="absolute opacity-40 -left-60 -bottom-0 w-[800px]"/>
  </section>
  
 
@@ -61,7 +61,7 @@ get_header();
  <section class="my-16">
      <div class="container mx-auto px-4">
          <div class="mb-10">
-             <h2 class="text-2xl text-center md:text-left font-bold capitalize leading-10"><?php echo $type ?> Providers in <span class="text-[#96B93A]"><?php echo $state ?> </span></h2>
+             <h2 class="text-2xl text-center md:text-left font-bold capitalize leading-10"><?php echo esc_html($type) ?> Providers in <span class="text-[#96B93A]"><?php echo esc_html($state) ?> </span></h2>
          </div>
 
         <div class="mb-7 flex sm:flex-row gap-4 flex-col justify-between items-center">

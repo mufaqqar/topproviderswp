@@ -14,7 +14,7 @@ get_header();
     <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 my-10 gap-10">
         <div>
             <span class="font-semibold text-[#044FC3]">SECURE CONNECTIONS</span>
-            <h1 class="text-gray-800 mt-3 text-2xl md:text-4xl font-extrabold">We Offer The <span class="text-[#044FC3]">Highest-Quality Network Connections</span></h1>
+            <h2 class="text-gray-800 mt-3 text-2xl md:text-4xl font-extrabold">We Offer The <span class="text-[#044FC3]">Highest-Quality Network Connections</span></h2>
             <p class=" text-gray-500 mt-4 text-lg">We’re here to help! Leave us a message, and our team will get back to you as soon as possible. We strive to provide quick and helpful responses to all inquiries. Your questions are important to us, and we’ll make sure you receive the support you need promptly.</p>
 
             <div class="flex mt-8 items-center gap-4">

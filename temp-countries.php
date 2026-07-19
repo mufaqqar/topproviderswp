@@ -11,7 +11,7 @@
 <section class="py-16">
     <div class="max-w-[1110px] w-full mx-auto px-4">
         <div class="container mx-auto px-4 py-8">
-            <h1 class="text-3xl font-bold mb-6 text-center">Top Internet Providers by Country</h1>
+            <h2 class="text-3xl font-bold mb-6 text-center">Top Internet Providers by Country</h2>
         <?php 
             $countries_by_continent = [
                 

@@ -141,53 +141,62 @@ add_action('after_switch_theme', 'custom_flush_rewrite_rules');
 
 
 function cbl_breadcrumb() {
-    // Get the query variables from the custom rewrite rules
     $service = get_query_var('service');
     $zone_state = get_query_var('zone_state');
     $zone_city = get_query_var('zone_city');
     $post_slug = get_query_var('post_slug');
-    
-    // Get the current post type
     $post_type = get_post_type();
 
-    // Start breadcrumb container with appropriate class
-    echo '<div class="container mx-auto px-4 breadcrumb">';
+    $items = array();
+    $items[] = array('url' => home_url(), 'label' => 'Home');
 
-    // Home link
-    echo '<a href="' . home_url() . '">Home</a>';
-
-    // Check post type for custom structure
     if ($post_type === 'area_zone') {
-        // Breadcrumb for 'area_zone' post type
         if ($service) {
-            echo ' <a href="' . home_url('/' . $service) . '"> ' . ucfirst($service) . '</a>';
+            $items[] = array('url' => home_url('/' . $service), 'label' => ucfirst($service));
         }
         if ($zone_state) {
-            echo ' <a href="' . home_url('/' . $service . '/' . $zone_state) . '"> ' . ucfirst(str_replace('-', ' ', $zone_state)) . '</a>';
+            $items[] = array('url' => home_url('/' . $service . '/' . $zone_state), 'label' => ucfirst(str_replace('-', ' ', $zone_state)));
         }
         if ($zone_city) {
-            echo ' <a href="' . home_url('/' . $service . '/' . $zone_state . '/' . $zone_city) . '"> ' . ucfirst(str_replace('-', ' ', $zone_city)) . '</a>';
+            $items[] = array('url' => home_url('/' . $service . '/' . $zone_state . '/' . $zone_city), 'label' => ucfirst(str_replace('-', ' ', $zone_city)));
         }
         if ($post_slug) {
-            echo ' <span> ' . get_the_title() . '</span>';
+            $items[] = array('url' => '', 'label' => get_the_title());
         }
     } elseif ($post_type === 'providers') {
-        // Breadcrumb for 'providers' post type
-        echo ' <a href="' . home_url('/providers') . '"> Providers</a>';
-        echo ' <span> ' . get_the_title() . '</span>';
+        $items[] = array('url' => home_url('/providers'), 'label' => 'Providers');
+        $items[] = array('url' => '', 'label' => get_the_title());
     } else {
-        // Default breadcrumb structure for other post types
         if (is_single()) {
-            the_category(' » ');
-            echo ' <span>» ' . get_the_title() . '</span>';
+            $categories = get_the_category();
+            if (!empty($categories)) {
+                $items[] = array('url' => get_category_link($categories[0]->term_id), 'label' => $categories[0]->name);
+            }
+            $items[] = array('url' => '', 'label' => get_the_title());
         } elseif (is_page()) {
-            echo ' <span> ' . get_the_title() . '</span>';
+            $items[] = array('url' => '', 'label' => get_the_title());
         } elseif (is_search()) {
-            echo ' <span> Search Results for "' . get_search_query() . '"</span>';
+            $items[] = array('url' => '', 'label' => 'Search Results for "' . get_search_query() . '"');
         }
     }
-    
-    // End breadcrumb container
+
+    $num_items = count($items);
+    echo '<div class="container mx-auto px-4 breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">';
+    foreach ($items as $index => $item) {
+        $position = $index + 1;
+        if ($position < $num_items && !empty($item['url'])) {
+            echo '<span itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
+            echo '<a href="' . esc_url($item['url']) . '" itemprop="item"><span itemprop="name">' . esc_html($item['label']) . '</span></a>';
+            echo '<meta itemprop="position" content="' . $position . '" />';
+            echo '</span>';
+            echo ' <span class="sep">&#187;</span> ';
+        } else {
+            echo '<span itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
+            echo '<span itemprop="name">' . esc_html($item['label']) . '</span>';
+            echo '<meta itemprop="position" content="' . $position . '" />';
+            echo '</span>';
+        }
+    }
     echo '</div>';
 }
 
@@ -304,6 +313,17 @@ function Generate_Description_For_State() {
     }
 }
 
+
+function Generate_Title_For_Service() {
+    global $wp_query;
+    $type = isset($wp_query->query_vars['service']) ? $wp_query->query_vars['service'] : '';
+    return 'Top ' . ucwords(str_replace('-', ' ', $type)) . ' Service Providers | Top Providers';
+}
+
+function Generate_Description_For_Service() {
+    $type = get_query_var('service', '');
+    return 'Compare top ' . str_replace('-', ' ', $type) . ' service providers. Find the best plans, prices, and deals in your area with Top Providers.';
+}
 
 function Generate_Canonical_Tag($canonical) {
     global $wp_query;

@@ -6,7 +6,7 @@
         <div class="mb-10">
             <h2 class="text-2xl font-bold mb-2">
                 What Local Channels are Available from Cable TV Providers in <span
-                    class="text-[#96B93A]"><?php echo $city?>, <span class="uppercase"><?php echo $state?></span></span>
+                    class="text-[#96B93A]"><?php echo esc_html($city)?>, <span class="uppercase"><?php echo esc_html($state)?></span></span>
             </h2>
             <p class="PClass">
                 The best part of using a cable provider is accessing the news, sports, events, and special screenings of
@@ -21,8 +21,8 @@
 
         <div class="mb-10">
             <h2 class="text-2xl font-bold mb-2">
-                Why Use Cable Companies in <span class="text-[#96B93A]"><?php echo $city?>, <span
-                        class="uppercase"><?php echo $state?></span></span>
+                Why Use Cable Companies in <span class="text-[#96B93A]"><?php echo esc_html($city)?>, <span
+                        class="uppercase"><?php echo esc_html($state)?></span></span>
             </h2>
             <p class="PClass">
                 Using all the streaming services like Netflix and Hulu sounds like a great deal, but it starts to add up
@@ -42,8 +42,8 @@
 
         <div class="mb-10">
             <h2 class="text-2xl font-bold mb-2">
-                How We Research TV Companies in <span class="text-[#96B93A]"><?php echo $city?>, <span
-                        class="uppercase"><?php echo $state?></span></span>
+                How We Research TV Companies in <span class="text-[#96B93A]"><?php echo esc_html($city)?>, <span
+                        class="uppercase"><?php echo esc_html($state)?></span></span>
             </h2>
             <p class="PClass">
                 To ensure we provide the best details on different cable TV providers in the area, we look at a list of
@@ -76,8 +76,8 @@
     <div class="container mx-auto px-4">
         <div class="mb-10">
             <h2 class="text-2xl font-bold mb-2">
-                How We Measure Home Phone Providers in <span class="text-[#96B93A]"><?php echo $city?>, <span
-                        class="uppercase"><?php echo $state?></span></span>
+                How We Measure Home Phone Providers in <span class="text-[#96B93A]"><?php echo esc_html($city)?>, <span
+                        class="uppercase"><?php echo esc_html($state)?></span></span>
             </h2>
             <p class="PClass">
                 Offering a cheap home phone line isn’t enough to convince our professional team at Top Providers of a
@@ -102,8 +102,8 @@
 
         <div class="mb-10">
             <h2 class="text-2xl font-bold mb-2">
-                Get the Best Landline Phone Service in <span class="text-[#96B93A]"><?php echo $city?>, <span
-                        class="uppercase"><?php echo $state?></span></span>
+                Get the Best Landline Phone Service in <span class="text-[#96B93A]"><?php echo esc_html($city)?>, <span
+                        class="uppercase"><?php echo esc_html($state)?></span></span>
             </h2>
             <p class="PClass">
                 Stop wasting time pouring through hours of overly hyped online marketing and get the trusted comparison

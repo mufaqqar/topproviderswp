@@ -78,9 +78,9 @@ if (isset($servicesInfo["landline_services"]["view_more"])) {
                     <span class="text-gray-400 ml-1 text-lg">/month</span>
                 </div>
             </div>
-            <a target="_blank" href="<?php the_permalink()?>">
+            <a target="_blank" rel="noopener noreferrer" href="<?php the_permalink()?>">
                 <img alt="Feature Image" loading="lazy" width="140" height="50" decoding="async" data-nimg="1"
-                    src="<?php echo $logoUrl ?>" style="color: transparent;" />
+                    src="<?php echo esc_url($logoUrl) ?>" style="color: transparent;" />
             </a>
         </div>
     </div>

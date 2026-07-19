@@ -40,8 +40,8 @@
             </div>
         </div>
     </div>
-    <img src="<?php echo get_template_directory_uri(); ?>/images/business.webp" class="absolute right-0 z-10 bottom-0 w-72"/>
-    <img src="<?php echo get_template_directory_uri(); ?>/images/wave1.png" class="absolute opacity-40 -left-60 -bottom-20 w-[800px]"/>
+    <img src="<?php echo get_template_directory_uri(); ?>/images/business.webp" alt="" class="absolute right-0 z-10 bottom-0 w-72"/>
+    <img src="<?php echo get_template_directory_uri(); ?>/images/wave1.png" alt="" class="absolute opacity-40 -left-60 -bottom-20 w-[800px]"/>
 </section>
 
 <section class="bgmain px-4 py-5 shadow-sm border-y border-zinc-400/20 z-50">

@@ -23,7 +23,7 @@ if ($query->have_posts()) {
         ?>
 
 
-<h2> <?php the_title() ?></h2>
+<h1> <?php the_title() ?></h1>
 
 <?php
         $post_title = $zip_query; 

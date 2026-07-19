@@ -2,13 +2,13 @@
 <section class="my-16">
     <div class="container mx-auto px-4">
         <div class="mb-10">
-            <h2 class="text-2xl font-bold">Summary of <?php echo $type ?> Providers in <span
-                    class="text-[#96B93A]"><?php echo $city ?> </span></h2>
+            <h2 class="text-2xl font-bold">Summary of <?php echo esc_html($type) ?> Providers in <span
+                    class="text-[#96B93A]"><?php echo esc_html($city) ?> </span></h2>
 
             <?php if ( $type === 'internet'): ?>
-            <p class="PClass"> When it comes to finding Internet service provider, <?php echo $city ?>, <?php echo $state ?> is served by a robust selection of home phone service providers each with its own
+            <p class="PClass"> When it comes to finding Internet service provider, <?php echo esc_html($city) ?>, <?php echo esc_html($state) ?> is served by a robust selection of home phone service providers each with its own
                 strengths. Whether you prioritize speed, affordability, or reliability, you can find internet providers
-                in <?php echo $city ?>, <?php echo $state ?> that suit your specific needs. Compare the available options,
+                in <?php echo esc_html($city) ?>, <?php echo esc_html($state) ?> that suit your specific needs. Compare the available options,
                 consider your budget, and choose the one that fits your requirements for a seamless online experience.
             <p>
 
@@ -22,13 +22,13 @@
                 the available telephone service providers in your area, finding the best deal and assisting with the
                 setup process.</p>
             <?php elseif ($type === 'home-security'): ?>
-            <p class="PClass"> As household names in the industry, these home security service providers in <?php echo $city ?> provide a range of products that are affordable and effective in protecting your home. With
+            <p class="PClass"> As household names in the industry, these home security service providers in <?php echo esc_html($city) ?> provide a range of products that are affordable and effective in protecting your home. With
                 flexible plans and low-cost monitoring subscriptions, your wallet won’t hurt too much. What’s more, you
                 can add more accessories to your security system over time.</p>
             <p class="PClass"> Remember that affordable doesn’t always mean low quality. Some of the companies we have
                 mentioned are extremely economical, offer excellent customer support, and protect your home at a price
                 that fits your budget. We have done the hard work. Now it’s up to you to choose a home security company
-                in <?php echo $city ?> that delivers peace of mind without straining your finances.</p>
+                in <?php echo esc_html($city) ?> that delivers peace of mind without straining your finances.</p>
             <?php else: ?>
             <div class="w-fit hint mx-auto block md:hidden mt-5">Swipe Left to See All →</div>
             <?php endif; ?>

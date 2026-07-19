@@ -110,9 +110,9 @@ $query_fast = new WP_Query($query_args_fast);
             </div>
         </div>
     </div>
-    <img src="<?php echo get_template_directory_uri(); ?>/images/business.webp"
+    <img src="<?php echo get_template_directory_uri(); ?>/images/business.webp" alt=""
         class="absolute right-0 z-10 bottom-0 w-72" />
-    <img src="<?php echo get_template_directory_uri(); ?>/images/wave1.png"
+    <img src="<?php echo get_template_directory_uri(); ?>/images/wave1.png" alt=""
         class="absolute opacity-40 -left-60 -bottom-0 w-[800px]" />
 </section>
 
@@ -634,7 +634,7 @@ $query_fast = new WP_Query($query_args_fast);
     <div class="container mx-auto px-4">
         <div class="mb-10">
             <h2 class="text-2xl font-bold">Summary of <?php echo FormatData($type); ?> Providers in
-                <span class="text-[#96B93A]"><?php echo $zipcode ?>, <?php echo $state ?> </span>
+                <span class="text-[#96B93A]"><?php echo esc_html($zipcode) ?>, <?php echo esc_html($state) ?> </span>
             </h2>
         </div>
         <div>
@@ -744,7 +744,7 @@ $query_fast = new WP_Query($query_args_fast);
                                 <div>
                                     <p class="text-center md:text-base text-xs">
                                         <?php if ($type === 'home-security'): ?><?php echo $feature ?><?php endif; ?>
-                                        <?php if ($type === 'landline'): ?><?php echo $type ?><?php endif; ?>
+                                        <?php if ($type === 'landline'): ?><?php echo esc_html($type) ?><?php endif; ?>
                                     </p>
                                 </div>
                             </div>
