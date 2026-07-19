@@ -164,14 +164,223 @@ html {
 
 @layer components {
   .fact-box .icon {
-    @apply text-lg font-medium flex items-center justify-center w-[90px] h-[90px] rounded-full border-2 border-[#96B93A] mx-auto z-20 relative;
+    @apply text-lg font-medium flex items-center justify-center w-[90px] h-[90px] rounded-full border-2 border-brand-green mx-auto z-20 relative;
   }
   .fact-box i {
-    @apply text-5xl text-[#96B93A] block w-fit mx-auto mt-[-25px];
+    @apply text-5xl text-brand-green block w-fit mx-auto mt-[-25px];
   }
 
   .PClass {
-    @apply text-xl font-[Roboto] mt-5;
+    @apply text-xl font-roboto mt-5;
+  }
+
+  /* ===== Hero / Page Titles ===== */
+  .hero-title-lg {
+    @apply sm:text-5xl text-4xl leading-normal font-semibold text-white text-center;
+  }
+  .hero-title {
+    @apply sm:text-5xl text-2xl font-bold text-center max-w-hero mx-auto capitalize leading-10;
+  }
+  .hero-title-alt {
+    @apply sm:text-5xl text-2xl text-white font-bold text-center max-w-hero mx-auto capitalize md:leading-10;
+  }
+  .hero-subtitle {
+    @apply text-xl text-center font-roboto my-5;
+  }
+
+  /* ===== Section Titles ===== */
+  .section-title {
+    @apply text-2xl font-bold capitalize leading-10;
+  }
+  .section-title-lg {
+    @apply text-gray-800 mt-3 text-2xl md:text-4xl font-extrabold;
+  }
+  .section-subtitle {
+    @apply text-base text-brand-gray mt-4 text-lg;
+  }
+
+  /* ===== Page Sections ===== */
+  .section-page {
+    @apply py-16;
+  }
+  .section-page-lg {
+    @apply py-24;
+  }
+  .section-blueprint {
+    @apply py-16 bg-brand-blueprint;
+  }
+  .section-hero-gradient {
+    @apply py-24 bg-cover bg-no-repeat bg-center;
+  }
+  .section-hero-solid {
+    @apply py-24 bg-brand-purple;
+  }
+  .section-hero-gray {
+    @apply py-14 flex items-center bg-gray-50 relative;
+  }
+
+  /* ===== Container / Wrappers ===== */
+  .container-content {
+    @apply max-w-content w-full mx-auto px-4;
+  }
+  .container-section {
+    @apply container mx-auto px-4;
+  }
+  .search-form-wrapper {
+    @apply !max-w-form w-full mx-auto;
+  }
+  .search-form-wrapper-white {
+    @apply !max-w-form w-full bg-white z-30 rounded-2xl mx-auto;
+  }
+
+  /* ===== Provider Cards ===== */
+  .provider-card {
+    @apply w-full flex flex-col p-6 bg-white rounded-lg shadow-lg border border-gray-200;
+  }
+  .provider-card-logo {
+    @apply max-h-12 w-auto;
+  }
+  .provider-price {
+    @apply text-4xl font-bold;
+  }
+  .provider-price-period {
+    @apply text-gray-400 ml-1 text-lg;
+  }
+
+  /* ===== Feature / Info Cards ===== */
+  .feature-card {
+    @apply w-full py-7 px-4 relative transform hover:-translate-y-3 transition-all duration-300 ease-in-out border;
+  }
+  .feature-card-icon {
+    @apply block absolute border border-brand-soft-bg -top-10 left-1/2 -translate-x-1/2 rounded-full w-fit mx-auto p-4 bg-white;
+  }
+  .feature-card-title {
+    @apply mt-5 text-center text-base font-bold text-brand-dark pt-4;
+  }
+  .feature-card-text {
+    @apply px-5 mt-5 text-base text-center text-brand-gray;
+  }
+
+  /* ===== Buttons ===== */
+  .btn-primary {
+    @apply inline-flex items-center py-3 px-5 text-sm font-medium text-white bg-brand-green rounded-lg border border-brand-green hover:bg-brand-green-hover;
+  }
+  .btn-secondary {
+    @apply w-full block text-center py-3 text-white bg-brand-purple rounded-md font-semibold hover:bg-brand-purple-hover;
+  }
+  .btn-outline {
+    @apply border-brand-green border-2 text-brand-green p-3 px-5 rounded-lg hover:bg-brand-green hover:text-white font-medium;
+  }
+  .btn-cta {
+    @apply w-full block text-center py-3 text-white bg-brand-green rounded-md font-semibold hover:bg-brand-green-hover transition;
+  }
+
+  /* ===== Tables ===== */
+  .table-wrapper {
+    @apply w-full mx-auto h-auto mb-6;
+  }
+  .table-header {
+    @apply md:w-full min-w-fit bg-brand-purple;
+  }
+  .table-header-cell {
+    @apply border-r grid justify-center md:p-5 p-2 md:h-auto h-[120px] items-center;
+  }
+  .table-header-text {
+    @apply md:text-base text-xs text-center text-white;
+  }
+  .table-cell {
+    @apply border-l border-r border-b grid justify-center md:p-5 p-2 md:h-auto h-[120px] items-center;
+  }
+  .table-cell-text {
+    @apply text-center md:text-base text-xs;
+  }
+
+  /* ===== Grid Layouts ===== */
+  .grid-providers {
+    @apply grid gap-5 sm:grid-cols-2 lg:grid-cols-3;
+  }
+  .grid-2col {
+    @apply grid md:grid-cols-2 grid-cols-1 gap-7 items-center;
+  }
+  .grid-3col {
+    @apply grid md:grid-cols-3 gap-7;
+  }
+  .grid-offers {
+    @apply grid md:grid-cols-4 gap-5;
+  }
+
+  /* ===== Filter / Sort Bar ===== */
+  .filter-bar {
+    @apply mb-7 flex sm:flex-row gap-4 flex-col justify-between items-center;
+  }
+  .sort-wrapper {
+    @apply flex gap-2 items-center;
+  }
+  .sort-select {
+    @apply bg-brand-green rounded-[6px] pr-2;
+  }
+  .sort-select select {
+    @apply p-2 bg-transparent border-none outline-none focus:border-none;
+  }
+
+  /* ===== Disclaimer ===== */
+  .disclaimer {
+    @apply text-sm font-roboto mt-10;
+  }
+
+  /* ===== FAQ Item ===== */
+  .faq-item {
+    @apply w-full h-fit border border-[#F0F0F0] rounded-[10px] p-[30px] shadow-soft;
+  }
+  .faq-question {
+    @apply flex justify-between cursor-pointer;
+  }
+  .faq-arrow-svg {
+    @apply transform transition duration-200 rotate-0;
+  }
+
+  /* ===== Image Decorations ===== */
+  .deco-business {
+    @apply absolute right-0 z-10 bottom-0 w-72;
+  }
+  .deco-wave {
+    @apply absolute opacity-40 -left-60 -bottom-0 w-[800px];
+  }
+
+  /* ===== Comparison Page ===== */
+  .comparison-grid {
+    @apply !overflow-x-auto scroll-bar my-20;
+  }
+  .comparison-section {
+    @apply mb-2 container mx-auto grid grid-cols-3 px-2 md:px-0 min-w-[540px];
+  }
+  .comparison-label {
+    @apply border font-semibold md:text-xl flex items-center;
+  }
+  .comparison-label p {
+    @apply p-3 px-4 flex items-center;
+  }
+  .comparison-select-wrapper {
+    @apply border bg-[#FECE2F] flex items-center pr-2 !border-b-0;
+  }
+
+  /* ===== Offer Sections (TV/Internet/Phone/Security) ===== */
+  .offer-header {
+    @apply md:w-full min-w-fit bg-brand-purple flex justify-between items-center;
+  }
+  .offer-cell {
+    @apply border-b grid items-center justify-center p-5;
+  }
+  .offer-cell-icon {
+    @apply grid gap-3 items-center justify-center p-5;
+  }
+
+  /* ===== Review/Trustpilot ===== */
+  .review-card {
+    @apply shadow-xl p-8 rounded-xl border;
+  }
+  .review-avatar {
+    @apply bg-brand-blue p-4 flex text-xl text-white w-fit mb-2 rounded-xl;
   }
 }
 

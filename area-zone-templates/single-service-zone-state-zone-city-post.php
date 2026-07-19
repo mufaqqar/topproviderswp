@@ -1,4 +1,4 @@
-<?php 
+﻿<?php 
 
 
 global $wp_query;
@@ -777,154 +777,41 @@ $query_fast = new WP_Query($query_args_fast);
 </section>
 
 
-<!-- FAQ’s -->
-<section class="my-16">
-    <div class="container mx-auto px-4">
-        <div class="mb-10">
-            <h2 class="text-2xl font-bold">FAQs</h2>
-        </div>
-        <div class="grid gap-10">
-            <?php
-                // Define an array of FAQs
-                $total_providers_count = $query_fast->found_posts;
-                $first_provider = $query_fast->posts[0];
-                $first_provider_title = get_the_title($first_provider->ID);
-                
-                $faqs;
-                $internet_faqs = [
-                    [
-                        "question" => "1. Who is the Best Internet Service Provider in $zipcode?",
-                        "answer" => "5 Internet service providers are available in $zipcode Based on the availability HughesNet is the best internet service provider in $zipcode"
-                    ],
-                    [
-                        "question" => "2. Who is the fastest Internet service provider in $zipcode?",
-                        "answer" => "HughesNet is the fastest internet service provider in $zipcode and offers max download speeds up to in select areas."
-                    ],
-                    [
-                        "question" => "3. Who is the cheapest Internet service provider in $zipcode?",
-                        "answer" => "HughesNet is the cheapest internet service provider in $zipcode with price starting from $55.00."
-                    ],
-                    [
-                        "question" => "4. What is the typical internet speed options offered in $zipcode?",
-                        "answer" => "In $zipcode internet speed options can vary among internet service providers but most plans include speeds from 25 mbps to 5000 mbps."
-                    ],
-                    [
-                        "question" => "5. How do I check the availability of Internet service providers in $zipcode?",
-                        "answer" => "To check Internet service providers availability, Enter your zip code to find the best internet options available to you."
-                    ]
-                ];
-                $tv_faqs = [
-                    [
-                        "question" => "How do I check the availability of TV service providers in $zipcode",
-                        "answer" => "To check TV service providers availability, Enter your zip code to find the best TV options available to you."
-                    ],
-                    [
-                        "question" => "2. How do I setup TV service in my new home in $zipcode?",
-                        "answer" => "To setup TV service in your new home, contact the above listed service providers, inquire about their plans and select the plan that works for you."
-                    ],
-                    [
-                        "question" => "3. Can I get TV service without any contract in $zipcode?",
-                        "answer" => "Yes. A few TV service providers in $zipcode offer no contract or month to month services. Call the providers to know more."
-                    ],
-                    [
-                        "question" => "4. Who is the Best TV Service Provider in $zipcode?",
-                        "answer" => "4 TV service providers are available in $zipcode Based on the availability and pricing DISH is the best TV service provider in $zipcode ."
-                    ],
-                    [
-                        "question" => "5. Who is the cheapest TV service provider in $zipcode?",
-                        "answer" => "DISH is the cheapest TV service provider in $zipcode with price starting from $79.99"
-                    ]
-                ];
-                $internet_tv = [
-                    [
-                        "question" => "1. How do I check the availability of Internet and TV service providers in $zipcode?",
-                        "answer" => "To check Internet and TV service providers bundles availability, Enter your zip code to find the best bundle options available to you."
-                    ],
-                    [
-                        "question" => "2. How do I setup internet and TV service in my new home in $zipcode?",
-                        "answer" => "To setup internet and TV service in your new home, contact the above listed service providers, inquire about their plans and select the plan that works for you."
-                    ],
-                    [
-                        "question" => "3. Can I get internet and TV bundle without any contract in $zipcode?",
-                        "answer" => "Yes. A few service providers in $zipcode offer no contract or month to month services. Check with the providers to know more."
-                    ],
-                    [
-                        "question" => "4.	Who is the cheapest Internet service provider in $zipcode",
-                        "answer" => "bundle service providers are available in $zipcode. Based on the availability DIRECTV is the best bundle service provider in $zipcode."
-                    ],
-                    [
-                        "question" => "5. Can I bundle Internet and TV service in $zipcode ?",
-                        "answer" => "Yes. Many providers in $zipcode offer bundle options to combine internet and TV services for potential cost savings."
-                    ],
-                ];
-                
- 
-                if ($type === 'tv'):
-                    $faqs = $tv_faqs;
-                elseif ($type === 'internet'):
-                    $faqs = $internet_faqs;
-                elseif ($type === 'internet-tv'):
-                    $faqs = $internet_tv;
-                else:
-                    $faqs = [];
-                endif;
+<?php
+$faqs = [];
+$internet_faqs = [
+    ["question" => "1. Who is the Best Internet Service Provider in $zipcode?", "answer" => "5 Internet service providers are available in $zipcode Based on the availability HughesNet is the best internet service provider in $zipcode"],
+    ["question" => "2. Who is the fastest Internet service provider in $zipcode?", "answer" => "HughesNet is the fastest internet service provider in $zipcode and offers max download speeds up to in select areas."],
+    ["question" => "3. Who is the cheapest Internet service provider in $zipcode?", "answer" => "HughesNet is the cheapest internet service provider in $zipcode with price starting from \$55.00."],
+    ["question" => "4. What is the typical internet speed options offered in $zipcode?", "answer" => "In $zipcode internet speed options can vary among internet service providers but most plans include speeds from 25 mbps to 5000 mbps."],
+    ["question" => "5. How do I check the availability of Internet service providers in $zipcode?", "answer" => "To check Internet service providers availability, Enter your zip code to find the best internet options available to you."]
+];
+$tv_faqs = [
+    ["question" => "How do I check the availability of TV service providers in $zipcode", "answer" => "To check TV service providers availability, Enter your zip code to find the best TV options available to you."],
+    ["question" => "2. How do I setup TV service in my new home in $zipcode?", "answer" => "To setup TV service in your new home, contact the above listed service providers, inquire about their plans and select the plan that works for you."],
+    ["question" => "3. Can I get TV service without any contract in $zipcode?", "answer" => "Yes. A few TV service providers in $zipcode offer no contract or month to month services. Call the providers to know more."],
+    ["question" => "4. Who is the Best TV Service Provider in $zipcode?", "answer" => "4 TV service providers are available in $zipcode Based on the availability and pricing DISH is the best TV service provider in $zipcode ."],
+    ["question" => "5. Who is the cheapest TV service provider in $zipcode?", "answer" => "DISH is the cheapest TV service provider in $zipcode with price starting from \$79.99"]
+];
+$internet_tv = [
+    ["question" => "1. How do I check the availability of Internet and TV service providers in $zipcode?", "answer" => "To check Internet and TV service providers bundles availability, Enter your zip code to find the best bundle options available to you."],
+    ["question" => "2. How do I setup internet and TV service in my new home in $zipcode?", "answer" => "To setup internet and TV service in your new home, contact the above listed service providers, inquire about their plans and select the plan that works for you."],
+    ["question" => "3. Can I get internet and TV bundle without any contract in $zipcode?", "answer" => "Yes. A few service providers in $zipcode offer no contract or month to month services. Check with the providers to know more."],
+    ["question" => "4. Who is the cheapest Internet service provider in $zipcode", "answer" => "bundle service providers are available in $zipcode. Based on the availability DIRECTV is the best bundle service provider in $zipcode."],
+    ["question" => "5. Can I bundle Internet and TV service in $zipcode ?", "answer" => "Yes. Many providers in $zipcode offer bundle options to combine internet and TV services for potential cost savings."],
+];
 
-                // Loop through the FAQs array
-                foreach ($faqs as $faq) {
-                    $question = $faq['question'];
-                    $answer = $faq['answer'];
-            ?>
-            <div
-                class="faq-item w-full h-fit border border-[#F0F0F0] rounded-[10px] p-[30px] shadow-[0_15px_15px_rgba(0,0,0,0.05)]">
-                <div class="faq-question flex justify-between cursor-pointer">
-                    <p class="text-lg font-semibold"><?php echo $question; ?></p>
-                    <span class="faq-icon text-lightBlue">
-                        <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024"
-                            class="faq-arrow transform transition duration-200 rotate-0" height="24" width="24"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path d="M474 152m8 0l60 0q8 0 8 8l0 704q0 8-8 8l-60 0q-8 0-8-8l0-704q0-8 8-8Z"></path>
-                            <path d="M168 474m8 0l672 0q8 0 8 8l0 60q0 8-8 8l-672 0q-8 0-8-8l0-60q0-8 8-8Z"></path>
-                        </svg>
-                    </span>
-                </div>
-                <div class="faq-answer hidden mt-5">
-                    <p class="text-base font-medium"><?php echo $answer; ?></p>
-                </div>
-            </div>
-            <?php
-                }
-            ?>
-        </div>
-    </div>
-</section>
+if ($type === 'tv'):
+    $faqs = $tv_faqs;
+elseif ($type === 'internet'):
+    $faqs = $internet_faqs;
+elseif ($type === 'internet-tv'):
+    $faqs = $internet_tv;
+endif;
 
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const faqItems = document.querySelectorAll('.faq-item');
-
-    faqItems.forEach((item) => {
-        const question = item.querySelector('.faq-question');
-        const answer = item.querySelector('.faq-answer');
-        const arrow = item.querySelector('.faq-arrow');
-
-        question.addEventListener('click', () => {
-            // Close all other open FAQ items
-            faqItems.forEach((otherItem) => {
-                const otherAnswer = otherItem.querySelector('.faq-answer');
-                const otherArrow = otherItem.querySelector('.faq-arrow');
-                if (otherItem !== item) {
-                    otherAnswer.classList.add('hidden');
-                    otherArrow.classList.remove('rotate-45');
-                }
-            });
-
-            // Toggle the clicked item
-            answer.classList.toggle('hidden');
-            arrow.classList.toggle('rotate-45');
-        });
-    });
-});
-</script>
+set_query_var('faq_title', 'FAQs');
+set_query_var('faq_items', $faqs);
+get_template_part('template-parts/section/faq');
+?>
 
 <?php get_footer();

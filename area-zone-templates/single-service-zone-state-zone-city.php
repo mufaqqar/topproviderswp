@@ -78,36 +78,28 @@
 
 
 
-<section class="py-14 flex items-center bg-gray-50 relative border-b-[2px] ">
-    <div class="container mx-auto px-4">
-        <div class="flex justify-center flex-col items-center">
-            <h1 class="sm:text-5xl text-2xl font-bold text-center max-w-[850px] mx-auto capitalize leading-10">
-                <?php echo esc_html(FormatData($type)) ?> Providers in <?php echo esc_html(FormatData($state)) ?> <span class="text-[#96B93A]"><?php echo esc_html(FormatData($city)) ?></span>
-            </h1>
-            <p class="text-xl text-center font-[Roboto] my-5">Enter your zip so we can find the best <?php echo esc_html(FormatData($type)) ?>
-                Providers in your area:</p>
-            <div class="!max-w-[712px] w-full bg-white z-30 rounded-2xl mx-auto">
-                <?php get_template_part('template-parts/search', 'form'); ?>
-            </div>
-        </div>
-    </div>
-    <img src="<?php echo get_template_directory_uri(); ?>/images/business.webp" alt="" class="absolute right-0 z-10 bottom-0 w-72"/>
-    <img src="<?php echo get_template_directory_uri(); ?>/images/wave1.png" alt="" class="absolute opacity-40 -left-60 -bottom-0 w-[800px]"/>
-</section>
+<?php
+set_query_var('hero_title', esc_html(FormatData($type)) . ' Providers in ' . esc_html(FormatData($state)) . ' <span class="text-brand-green">' . esc_html(FormatData($city)) . '</span>');
+set_query_var('hero_subtitle', 'Enter your zip so we can find the best ' . esc_html(FormatData($type)) . ' Providers in your area:');
+set_query_var('hero_style', 'gray');
+set_query_var('hero_deco', true);
+set_query_var('hero_search', true);
+get_template_part('template-parts/section/hero-banner');
+?>
 
 <section class="my-16">
-    <div class="container mx-auto px-4">
+    <div class="container-section">
         <div class="mb-10">
-            <h2 class="text-2xl text-center md:text-left font-bold capitalize leading-10"><?php echo esc_html($type) ?> Providers in <?php echo esc_html(FormatData($state));?>
-                <span class="text-[#96B93A]"><?php echo esc_html(FormatData($city))?> </span>
+            <h2 class="section-title text-center md:text-left"><?php echo esc_html($type) ?> Providers in <?php echo esc_html(FormatData($state));?>
+                <span class="text-brand-green"><?php echo esc_html(FormatData($city))?> </span>
             </h2>
         </div>
-        <div class="mb-7 flex sm:flex-row gap-4 flex-col justify-between items-center">
+        <div class="filter-bar">
             <?php get_template_part( 'template-parts/types', 'routing' ); ?>
-            <div class="flex gap-2 items-center">
+            <div class="sort-wrapper">
                 <p class="font-medium">Sort By:</p>
-                <div  class="bg-[#96B93A] rounded-[6px] pr-2">
-                    <select class="p-2 bg-transparent  border-none outline-none focus:border-none">
+                <div class="sort-select">
+                    <select>
                         <option value="">Recommended</option>
                         <option value="">Speed</option>
                         <option value="">Avg. User Rating</option>
@@ -115,7 +107,7 @@
                 </div>
             </div>
         </div>
-        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="grid-providers">
             <?php
                 if ($query->have_posts()) {
                     $i = 0;
@@ -133,7 +125,7 @@
             ?>
         </div>
         <div>
-            <p class="text-sm font-[Roboto] mt-10">*DISCLAIMER: Availability vary by service address. not all offers
+            <p class="disclaimer">*DISCLAIMER: Availability vary by service address. not all offers
                 available in all areas, pricing subject to change at any time. Additional taxes, fees, and terms may
                 apply.</p>
         </div>
