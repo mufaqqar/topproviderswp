@@ -2,51 +2,41 @@
 
 
 function generate_custom_sitemap() {
-    // Define the static service types
     $services = ['internet', 'tv', 'internet-tv', 'home-security', 'landline', 'moving', 'solar', 'insurance', 'health-insurance'];
     
-    // Fetch all terms in `zone_state` and `zone_city` taxonomies
     $zone_states = get_terms(['taxonomy' => 'zone_state', 'hide_empty' => true]);
     $zone_cities = get_terms(['taxonomy' => 'zone_city', 'hide_empty' => true]);
-    
-    // Fetch all `area_zone` posts
-    $area_zone_posts = get_posts(['post_type' => 'area_zone', 'posts_per_page' => -1]);
+    $area_zone_posts = get_posts(['post_type' => 'area_zone', 'posts_per_page' => -1, 'fields' => 'ids']);
 
-    // Start XML output
-    $xml = new SimpleXMLElement('<urlset/>');
-    $xml->addAttribute('xmlns', 'http://www.sitemaps.org/schemas/sitemap/0.9');
+    $file = fopen(ABSPATH . 'zone_sitemap.xml', 'w');
+    fwrite($file, '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL);
+    fwrite($file, '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . PHP_EOL);
 
     foreach ($services as $service) {
-        // Pattern 4: /service
-        $url = $xml->addChild('url');
-        $url->addChild('loc', home_url("/$service/"));
+        fwrite($file, '<url><loc>' . esc_url(home_url("/$service/")) . '</loc></url>' . PHP_EOL);
 
         foreach ($zone_states as $zone_state) {
-            // Pattern 3: /service/zone_state
-            $url = $xml->addChild('url');
-            $url->addChild('loc', home_url("/$service/{$zone_state->slug}/"));
+            fwrite($file, '<url><loc>' . esc_url(home_url("/$service/{$zone_state->slug}/")) . '</loc></url>' . PHP_EOL);
 
             foreach ($zone_cities as $zone_city) {
-                // Pattern 2: /service/zone_state/zone_city
-                $url = $xml->addChild('url');
-                $url->addChild('loc', home_url("/$service/{$zone_state->slug}/{$zone_city->slug}/"));
+                $city_url = home_url("/$service/{$zone_state->slug}/{$zone_city->slug}/");
+                fwrite($file, '<url><loc>' . esc_url($city_url) . '</loc></url>' . PHP_EOL);
 
-                foreach ($area_zone_posts as $post) {
-                    // Verify the post has the current zone_state and zone_city terms
-                    $post_zone_states = wp_get_post_terms($post->ID, 'zone_state', ['fields' => 'slugs']);
-                    $post_zone_cities = wp_get_post_terms($post->ID, 'zone_city', ['fields' => 'slugs']);
+                foreach ($area_zone_posts as $post_id) {
+                    $post_zone_states = wp_get_post_terms($post_id, 'zone_state', ['fields' => 'slugs']);
+                    $post_zone_cities = wp_get_post_terms($post_id, 'zone_city', ['fields' => 'slugs']);
                     
                     if (in_array($zone_state->slug, $post_zone_states) && in_array($zone_city->slug, $post_zone_cities)) {
-                        // Pattern 1: /service/zone_state/zone_city/post_slug
-                        $url = $xml->addChild('url');
-                        $url->addChild('loc', home_url("/$service/{$zone_state->slug}/{$zone_city->slug}/{$post->post_name}/"));
+                        $post_slug = get_post_field('post_name', $post_id);
+                        fwrite($file, '<url><loc>' . esc_url(home_url("/$service/{$zone_state->slug}/{$zone_city->slug}/{$post_slug}/")) . '</loc></url>' . PHP_EOL);
                     }
                 }
             }
         }
     }
 
-    // Save the XML to a file
-    $xml->asXML(ABSPATH . 'zone_sitemap.xml');
+    fwrite($file, '</urlset>' . PHP_EOL);
+    fclose($file);
 }
-add_action('init', 'generate_custom_sitemap');
+// Remove from init - too heavy. Run manually via sitemap generator page.
+// add_action('init', 'generate_custom_sitemap');
