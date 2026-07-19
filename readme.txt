@@ -12,6 +12,9 @@ Change zip code pages content, internet, tv, landline AND CHANGE SLUG TO: /inter
 
 #updated sitemap
 
+#news logics
+
+
 
 
 
