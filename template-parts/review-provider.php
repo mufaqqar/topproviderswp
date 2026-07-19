@@ -76,7 +76,7 @@
                 </svg>
                 <h2 class="text-sm sm:text-base text-left font-black "><?php the_title() ?></h2>
             </span>
-            <p class="font-medium text-left text-sm sm:text-base group-hover:text-black text-gray-500">Vist to provider
+            <p class="font-medium text-left text-sm sm:text-base group-hover:text-black text-gray-500">Visit to provider
                 full details</p>
         </div>
         <svg width="20px" height="20px" viewBox="0 0 24 24" fill="inherit">

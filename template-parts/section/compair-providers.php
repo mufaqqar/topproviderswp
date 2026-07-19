@@ -85,13 +85,7 @@ $city = get_query_var('zone_city', '');
                                 <div><p class="text-center md:text-base text-xs"><?php echo esc_html($speed); ?><?php if ($type === 'internet') echo ' Mbps'; ?></p></div>
                             </div>
                             <div class="w-full md:border-r border-r-0 border-b grid justify-center md:p-5 p-2 min-h-[64.8px] items-center md:col-span-3">
-                                <div><p class="text-center md:text-base text-xs"><?php echo esc_html($connection_type); ?></p></div>
-                            </div>
-                            <div class="w-full grid justify-center md:p-5 p-2 min-h-[64.8px] items-center">
                                 <div><p class="text-center md:text-base text-xs"><?php echo esc_html($data_caps); ?></p></div>
-                            </div>
-                            <div class="w-full grid justify-center md:p-5 p-2 min-h-[64.8px] items-center">
-                                <div><p class="text-center md:text-base text-xs"><?php echo esc_html($contract); ?></p></div>
                             </div>
                             <div class="w-full grid justify-center md:p-5 p-2 min-h-[64.8px] items-center">
                                 <div><p class="text-center md:text-base text-xs"><?php echo esc_html($setup_fee); ?></p></div>

@@ -24,7 +24,7 @@ get_header();
             <h1 class="sm:text-5xl text-2xl font-bold text-center max-w-[850px] mx-auto capitalize leading-10">
                 Search <?php echo esc_html($last_part) ?> Service Providers
             </h1>
-            <p class="text-xl text-center font-[Roboto] my-5">Enter your zip so we can find the best <?php echo esc_html($last_part) ?> Providers in your area:</p>
+            <p class="text-xl text-center font-[Roboto] my-5">Find top <?php echo esc_html($last_part) ?> providers near you — enter your ZIP code to compare plans and pricing:</p>
             <?php get_template_part('template-parts/filter', 'form'); ?>
         </div>
     </div>

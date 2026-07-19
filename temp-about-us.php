@@ -50,7 +50,7 @@ get_template_part('template-parts/section/hero-banner');
 </section>
 
 <section class="container-section mb-20">
-    <h2 class="section-title-lg text-center">Whats Our Client <span class="text-brand-blue">Say's</span></h2>
+    <h2 class="section-title-lg text-center">What Our <span class="text-brand-blue">Clients Say</span></h2>
     <?php get_template_part('template-parts/client', 'reviews'); ?>
 </section>
 

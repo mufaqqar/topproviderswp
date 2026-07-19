@@ -80,7 +80,7 @@
 
 <?php
 set_query_var('hero_title', esc_html(FormatData($type)) . ' Providers in ' . esc_html(FormatData($state)) . ' <span class="text-brand-green">' . esc_html(FormatData($city)) . '</span>');
-set_query_var('hero_subtitle', 'Enter your zip so we can find the best ' . esc_html(FormatData($type)) . ' Providers in your area:');
+set_query_var('hero_subtitle', 'Find the best ' . esc_html(FormatData($type)) . ' providers in ' . esc_html(FormatData($city)) . ' — enter your ZIP code to compare options:');
 set_query_var('hero_style', 'gray');
 set_query_var('hero_deco', true);
 set_query_var('hero_search', true);

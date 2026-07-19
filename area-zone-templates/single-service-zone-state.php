@@ -32,7 +32,7 @@ $state = strtoupper($zone_state);
 
 
 set_query_var('hero_title', esc_html($type) . ' Providers in <br /><span class="text-brand-green">' . esc_html($state) . '</span>');
-set_query_var('hero_subtitle', 'Enter your zip so we can find the best ' . esc_html($type) . ' Providers in your area:');
+set_query_var('hero_subtitle', 'Compare ' . esc_html($type) . ' providers in ' . esc_html($state) . ' — enter your ZIP to see available plans and pricing:');
 set_query_var('hero_style', 'gray');
 set_query_var('hero_deco', true);
 set_query_var('hero_search', true);

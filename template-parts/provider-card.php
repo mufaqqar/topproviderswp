@@ -112,7 +112,7 @@ if (isset($servicesInfo["landline_services"]["view_more"])) {
         ?>
         </div>
         <div class="mt-6">
-            <a href="http://refer.astound.com/6JG8jB"
+            <a href="<?php echo esc_url($view_link ?: get_permalink()); ?>"
                 class="w-full block text-center mb-2 py-3 text-white bg-[#FBB13D] rounded-md font-semibold hover:bg-[#6041BB]">
                 Get Deal
             </a>

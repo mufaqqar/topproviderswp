@@ -1,4 +1,4 @@
-<!-- Text Sections for TV -->
+﻿<!-- Text Sections for TV -->
 <?php 
     if ($type === 'tv'): ?>
 <section class="my-16">
@@ -15,7 +15,7 @@
             <p class="PClass">
                 Local channels are based on the service provider you choose for your TV service. <a
                     href="https://www.channelmaster.com/pages/free-tv-channels">Click here </a>to find the list of local
-                stations you’ll get while living in Glendale CA.
+                stations you’ll get while living in , .
             </p>
         </div>
 
@@ -35,7 +35,7 @@
                 to watch your favorite shows, you can use the provided remote to hop from CNN to Nickelodeon to ESPN to
                 a local news station. </p>
             <p class="PClass">
-                Glendale offers many top-ranked TV providers, with Spectrum, Dish, and DirecTV leading the charge. Each
+                $city offers many top-ranked TV providers, with Spectrum, Dish, and DirecTV leading the charge. Each
                 one provides competitive pricing and an expansive content library of channels to surf when relaxing.
             </p>
         </div>
@@ -85,8 +85,8 @@
                 best landline phone service. That may include any combination of:
             </p>
             <ul>
-                <li>• Internet Requirements: Do the landline home phone service providers in Glendale, CA, require you
-                    to have internet access to install or use the lines being offered? </li>
+                <li>• Internet Requirements: Do the landline home phone service providers in , , require you
+                    to have internet access to install or use the lines being offered?</li>
                 <li>• Hidden Fees & Taxes: Does signing up for the landline home service providers mean paying hidden
                     fees that increase over time or are there any local taxes not worked into the monthly price
                     advertised? </li>
@@ -108,7 +108,7 @@
             <p class="PClass">
                 Stop wasting time pouring through hours of overly hyped online marketing and get the trusted comparison
                 our professional agents provide. At Top Providers, we save you time and money by uncovering the home phone
-                service providers in Glendale, CA perfect for your unique personal and business needs.
+                service providers in ,  perfect for your unique personal and business needs.
             </p>
             <p class="PClass">
                 Call our agents today, and let’s find the perfect landline solution whether you’ve just moved to the

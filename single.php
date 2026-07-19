@@ -17,6 +17,7 @@ $caption = wp_get_attachment_caption($thumbnail_id);
 $args = array(
     'post_type'      => 'post',
     'posts_per_page' => 5,
+    'post__not_in'   => array($post_id),
     'orderby'        => 'date',
     'order'          => 'DESC'
 );
