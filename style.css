@@ -19,6 +19,7 @@ html {
   font-family: "Manrope", sans-serif !important;
   scroll-behavior: smooth;
 }
+
 .container {
   max-width: 1700px !important;
   width: 100% !important;
@@ -61,6 +62,7 @@ html {
   list-style-type: none;
   margin-bottom: 6px;
 }
+
 .pros ul li:before {
   content: "✓";
   border: 1px solid green;
@@ -72,6 +74,7 @@ html {
   line-height: 20px;
   display: inline-block;
 }
+
 .cons ul li:before {
   content: "☓";
   border: 1px solid red;
@@ -83,15 +86,18 @@ html {
   line-height: 20px;
   display: inline-block;
 }
+
 /* Initially hide all submenus */
 .submenu {
   display: none;
   z-index: 1111111 !important;
 }
+
 /* Show submenu when hovering over the parent li element */
 .menu-item:hover .submenu {
   display: block;
 }
+
 /* Additional styling to make submenu behave like a dropdown */
 
 /* Optional: add transition for smooth appearance */
@@ -100,48 +106,60 @@ html {
   opacity: 0;
   pointer-events: none;
 }
+
 .menu-item {
   padding: 12px 0;
 }
+
 .menu-item:hover .submenu {
   opacity: 1;
   pointer-events: auto;
 }
+
 /* Mobile menu hidden by default */
 #menu {
   display: none;
 }
+
 /* Show menu when 'hidden' class is removed */
 #menu.hidden {
   display: block;
 }
+
 /* Mobile styles */
 @media (max-width: 640px) {
+
   /* Show hamburger button */
   #menu-toggle {
     display: block;
   }
+
   /* Hide menu initially */
   #menu {
     display: none;
   }
+
   /* Menu styling for mobile */
   #menu.hidden {
     display: flex;
     flex-direction: column;
     position: absolute;
-    top: 56px; /* Position below the header */
+    top: 56px;
+    /* Position below the header */
     left: 0;
     align-items: flex-start;
     width: 100%;
-    background-color: #ffffff; /* Or any color you want */
+    background-color: #ffffff;
+    /* Or any color you want */
     padding: 1rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
+
   .menu-item {
     padding: 0 !important;
   }
 }
+
 @media (min-width: 1024px) {
   .submenu {
     display: grid !important;
@@ -149,15 +167,18 @@ html {
     z-index: 11111 !important;
   }
 }
+
 /* For larger screens, always display the menu */
 @media (min-width: 641px) {
   #menu {
     display: flex;
   }
 }
+
 .menu-item ul li {
   padding: 5px 16px !important;
 }
+
 #dropdownMenu {
   overflow: hidden;
 }
@@ -166,6 +187,7 @@ html {
   .fact-box .icon {
     @apply text-lg font-medium flex items-center justify-center w-[90px] h-[90px] rounded-full border-2 border-[#96B93A] mx-auto z-20 relative;
   }
+
   .fact-box i {
     @apply text-5xl text-[#96B93A] block w-fit mx-auto mt-[-25px];
   }
@@ -183,7 +205,8 @@ html {
   width: 100%;
   height: 100vh;
   overflow: hidden;
-  background-color: rgba(0, 0, 0, 0.5); /* Black with opacity */
+  background-color: rgba(0, 0, 0, 0.5);
+  /* Black with opacity */
 }
 
 .modal-content {
@@ -192,7 +215,8 @@ html {
   margin: 10% auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 80%; /* Could be more or less, depending on screen size */
+  width: 80%;
+  /* Could be more or less, depending on screen size */
 }
 
 .close {
@@ -222,6 +246,7 @@ html {
 .single_content p {
   margin: 7px 0;
 }
+
 .single_content ul {
   list-style-type: disc;
   padding-left: 18px;
@@ -271,6 +296,7 @@ html {
   color: #96b93a;
   text-decoration: underline;
 }
+
 /*End */
 
 .providers_slides {
@@ -311,16 +337,16 @@ html {
   background-repeat: no-repeat;
   background-size: cover;
 }
+
 .pbanner .overlay_wrapper {
-  background: linear-gradient(
-    90deg,
-    rgba(1, 29, 51, 1) 33%,
-    rgba(1, 29, 51, 0.9809173669467787) 36%,
-    rgba(1, 29, 51, 0.9417016806722689) 41%,
-    rgba(1, 29, 51, 0.8576680672268908) 48%,
-    rgba(255, 255, 255, 0) 100%
-  );
+  background: linear-gradient(90deg,
+      rgba(1, 29, 51, 1) 33%,
+      rgba(1, 29, 51, 0.9809173669467787) 36%,
+      rgba(1, 29, 51, 0.9417016806722689) 41%,
+      rgba(1, 29, 51, 0.8576680672268908) 48%,
+      rgba(255, 255, 255, 0) 100%);
 }
+
 .pbanner .overlay_wrapper h1 {
   margin-top: 1rem;
 }
@@ -357,10 +383,12 @@ html {
 .menu-item {
   position: relative !important;
 }
-.parent-menu-item > ul {
+
+.parent-menu-item>ul {
   display: none;
 }
-.parent-menu-item:hover > ul {
+
+.parent-menu-item:hover>ul {
   display: block;
 }
 
@@ -368,15 +396,18 @@ html {
   transition: all 0.3s ease;
   margin-left: 15px !important;
 }
+
 .hidden {
   display: none;
 }
+
 @media (max-width: 768px) {
   .submenu {
     margin-left: 14px !important;
     padding-top: 0;
     padding-bottom: 0;
   }
+
   .submenu li a {
     padding-left: 0;
     padding: 0 !important;
@@ -392,6 +423,7 @@ footer {
 .the_content {
   margin-top: 5px;
 }
+
 .the_content h2 {
   text-align: left !important;
   font-weight: 700;
@@ -399,13 +431,16 @@ footer {
   border: 0px !important;
   padding: 10px 0 !important;
 }
+
 .the_content hr {
   display: none !important;
 }
+
 .the_content ul {
   list-style-type: circle;
   padding: 6px 0 0 1.4rem !important;
 }
+
 .the_content h3 {
   text-align: left !important;
   font-weight: 700;
@@ -413,18 +448,22 @@ footer {
   border: 0px !important;
   padding: 10px 0 !important;
 }
+
 .the_content img {
   width: 100% !important;
 }
 
 .rsm-geography {
-  transition: fill 0.2s ease; /* Smooth transition */
+  transition: fill 0.2s ease;
+  /* Smooth transition */
 }
 
 .rsm-geography:hover {
-  fill: #96b93a !important; /* New fill color on hover */
+  fill: #96b93a !important;
+  /* New fill color on hover */
   fill-opacity: 1 !important;
 }
+
 .submenu {
   margin-left: 0 !important;
 }
@@ -442,6 +481,7 @@ footer {
   padding: 10px 1.5rem;
   color: #fff;
 }
+
 .cons h2 {
   background-color: #be2626;
   padding: 10px 1.5rem;
@@ -471,9 +511,11 @@ footer {
   align-items: center;
   gap: 0.5rem;
 }
+
 .pros ul li {
   background-color: #95b93a3c;
 }
+
 .cons ul li {
   background: #be262635;
 }
@@ -507,7 +549,8 @@ footer {
   width: 24px;
   height: 24px;
   left: 50%;
-  bottom: -16px; /* Adjusted positioning */
+  bottom: -16px;
+  /* Adjusted positioning */
   transform: translateX(-50%);
   transition: all 0.3s linear 0s;
   background-color: #96b93a;
