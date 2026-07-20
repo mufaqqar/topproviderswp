@@ -82,9 +82,6 @@ function tp_theme_setup() {
 			'script',
 		)
 	);
-    add_theme_support( 'title-tag' );
-
-
 }
 add_action( 'after_setup_theme', 'tp_theme_setup' );
 
@@ -544,14 +541,19 @@ function Cheap_provider_details($provider_ids) {
 
 function FormatData($string) {   
     $string = trim($string); 
-    if (strtolower($string) === 'tv') {
-        return 'TV';
-    }
-    if (strtolower($string) === 'internet-tv') {
-        return 'Internet & TV';
-    }
-    $string = str_replace('-', ' ', $string);
-    return ucwords($string);
+    $formatted = [
+        'tv' => 'TV',
+        'internet-tv' => 'Internet & TV',
+        'home-security' => 'Home Security',
+        'health-insurance' => 'Health Insurance',
+        'internet' => 'Internet',
+        'landline' => 'Landline',
+        'moving' => 'Moving',
+        'solar' => 'Solar',
+        'insurance' => 'Insurance',
+    ];
+    $lower = strtolower($string);
+    return isset($formatted[$lower]) ? $formatted[$lower] : ucwords(str_replace('-', ' ', $lower));
 }
 
 

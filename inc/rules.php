@@ -5,7 +5,7 @@
 // Step 1: Define dynamic rewrite rules for all service types
 function custom_dynamic_rewrite_rules() {
     // Define the static service types
-    $services = ['internet', 'tv', 'internet-tv'];
+    $services = ['internet', 'tv', 'internet-tv', 'moving', 'solar', 'insurance', 'health-insurance', 'home-security'];
     
     foreach ($services as $service) {
         // Pattern for full URL: /service/zone_state/zone_city/post_slug
@@ -63,7 +63,7 @@ function add_custom_prefix_to_area_zone_slug($post_link, $post) {
         $service_type = get_post_meta($post->ID, '_service_type', true);
 
         // Ensure the service type is valid
-        $valid_service_types = ['internet', 'tv', 'tv-internet', 'landline'];
+        $valid_service_types = ['internet', 'tv', 'tv-internet', 'landline', 'moving', 'solar', 'insurance', 'health-insurance', 'home-security'];
         if (!in_array($service_type, $valid_service_types)) {
             $service_type = 'internet'; // Default to internet if none is found
         }
@@ -137,60 +137,66 @@ function custom_flush_rewrite_rules() {
 add_action('after_switch_theme', 'custom_flush_rewrite_rules');
 
 
-add_action('init', function() {
-    custom_dynamic_rewrite_rules();
-    flush_rewrite_rules(); // Only for development purposes. Remove after testing.
-});
+
 
 
 function cbl_breadcrumb() {
-    // Get the query variables from the custom rewrite rules
     $service = get_query_var('service');
     $zone_state = get_query_var('zone_state');
     $zone_city = get_query_var('zone_city');
     $post_slug = get_query_var('post_slug');
-    
-    // Get the current post type
     $post_type = get_post_type();
 
-    // Start breadcrumb container with appropriate class
-    echo '<div class="container mx-auto px-4 breadcrumb">';
+    $items = array();
+    $items[] = array('url' => home_url(), 'label' => 'Home');
 
-    // Home link
-    echo '<a href="' . home_url() . '">Home</a>';
-
-    // Check post type for custom structure
     if ($post_type === 'area_zone') {
-        // Breadcrumb for 'area_zone' post type
         if ($service) {
-            echo ' <a href="' . home_url('/' . $service) . '"> ' . ucfirst($service) . '</a>';
+            $items[] = array('url' => home_url('/' . $service), 'label' => ucfirst($service));
         }
         if ($zone_state) {
-            echo ' <a href="' . home_url('/' . $service . '/' . $zone_state) . '"> ' . ucfirst(str_replace('-', ' ', $zone_state)) . '</a>';
+            $items[] = array('url' => home_url('/' . $service . '/' . $zone_state), 'label' => ucfirst(str_replace('-', ' ', $zone_state)));
         }
         if ($zone_city) {
-            echo ' <a href="' . home_url('/' . $service . '/' . $zone_state . '/' . $zone_city) . '"> ' . ucfirst(str_replace('-', ' ', $zone_city)) . '</a>';
+            $items[] = array('url' => home_url('/' . $service . '/' . $zone_state . '/' . $zone_city), 'label' => ucfirst(str_replace('-', ' ', $zone_city)));
         }
         if ($post_slug) {
-            echo ' <span> ' . get_the_title() . '</span>';
+            $items[] = array('url' => '', 'label' => get_the_title());
         }
     } elseif ($post_type === 'providers') {
-        // Breadcrumb for 'providers' post type
-        echo ' <a href="' . home_url('/providers') . '"> Providers</a>';
-        echo ' <span> ' . get_the_title() . '</span>';
+        $items[] = array('url' => home_url('/providers'), 'label' => 'Providers');
+        $items[] = array('url' => '', 'label' => get_the_title());
     } else {
-        // Default breadcrumb structure for other post types
         if (is_single()) {
-            the_category(' » ');
-            echo ' <span>» ' . get_the_title() . '</span>';
+            $categories = get_the_category();
+            if (!empty($categories)) {
+                $items[] = array('url' => get_category_link($categories[0]->term_id), 'label' => $categories[0]->name);
+            }
+            $items[] = array('url' => '', 'label' => get_the_title());
         } elseif (is_page()) {
-            echo ' <span> ' . get_the_title() . '</span>';
+            $items[] = array('url' => '', 'label' => get_the_title());
         } elseif (is_search()) {
-            echo ' <span> Search Results for "' . get_search_query() . '"</span>';
+            $items[] = array('url' => '', 'label' => 'Search Results for "' . get_search_query() . '"');
         }
     }
-    
-    // End breadcrumb container
+
+    $num_items = count($items);
+    echo '<div class="container mx-auto px-4 breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">';
+    foreach ($items as $index => $item) {
+        $position = $index + 1;
+        if ($position < $num_items && !empty($item['url'])) {
+            echo '<span itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
+            echo '<a href="' . esc_url($item['url']) . '" itemprop="item"><span itemprop="name">' . esc_html($item['label']) . '</span></a>';
+            echo '<meta itemprop="position" content="' . $position . '" />';
+            echo '</span>';
+            echo ' <span class="sep">&#187;</span> ';
+        } else {
+            echo '<span itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
+            echo '<span itemprop="name">' . esc_html($item['label']) . '</span>';
+            echo '<meta itemprop="position" content="' . $position . '" />';
+            echo '</span>';
+        }
+    }
     echo '</div>';
 }
 
@@ -210,13 +216,8 @@ function Generate_Title_For_Zipcode() {
     
  
 
-    if($type === "internet"){
-        return "Fastest $f_type Providers in $zipcode, $f_state |  Top Providers";
-    } elseif ($type === "tv") {
-        return "Fastest $f_type Providers in  $zipcode, $f_state |  Top Providers";
-    }elseif ($type === "internet-tv") {
-        return "Fastest $f_type Providers in  $zipcode, $f_state |  Top Providers";
-    }
+    $label = FormatData($type);
+    return "Best $label in $zipcode, $f_state | Top Providers";
 }
 
 function Generate_Description_For_Zipcode() {
@@ -229,13 +230,8 @@ function Generate_Description_For_Zipcode() {
     $f_type = ucwords($type) ;
    
 
-    if($type === "internet"){
-        return  "Explore $f_type providers in $zipcode, $state. Compare exclusive deals to find a plan that fits your budget and streaming needs.";
-    } elseif ($type === "tv") {
-        return "Explore $f_type providers in $zipcode, $state. Compare exclusive deals to find a plan that fits your budget and streaming needs.";
-    }elseif ($type === "internet-tv") {
-        return "Explore $f_type providers in $zipcode, $state. Compare exclusive deals to find a plan that fits your budget and streaming needs.";
-    }
+    $label = FormatData($type);
+    return "Explore $label providers in $zipcode, $state. Compare exclusive deals and find the best option for your needs with Top Providers.";
 }
 
 function Generate_Title_For_City() {
@@ -245,13 +241,8 @@ function Generate_Title_For_City() {
     $zipcode = $wp_query->query_vars['post_slug'];
     $type =$wp_query->query_vars['service'];
 
-    if($type === "internet"){
-        return "Top $type Providers in $city, $state | Trusted and Affordable Solutions from Top Providers";
-    } elseif ($type === "tv") {
-        return "Top TV Providers in $city, $state | Trusted and Affordable Solutions from Top Providers";
-    }elseif ($type === "internet-tv") {
-        return "Top Internet & TV  Providers in $city, $state | Trusted and Affordable Solutions from Top Providers";
-    }
+    $label = FormatData($type);
+    return "Top $label Providers in $city, $state | Trusted Solutions from Top Providers";
 }
 
 function Generate_Description_For_City() {
@@ -260,15 +251,18 @@ function Generate_Description_For_City() {
     $zipcode = get_query_var('post_slug', '');
     $type = get_query_var('service', '');
 
-    if($type === "internet"){
-        return  "View all Internet service providers in $city, $state. Compare Internet plans, prices and new promotions and pick the best provider that fits within your budget.";
-    } elseif ($type === "tv") {
-        return "Compare TV providers in $city, $state. View TV plans and deals and choose the best provider that fits within your budget";
-    }elseif ($type === "landline") {
-        return "Find the best home phone service providers in $city, $state. Compare providers, plans, prices and amenities to set your landline up.";
-    }elseif ($type === "home-security") {
-        return "Find reliable, trustworthy, and affordable home security systems in $city, $state and protect your property like never before.";
-    }
+    $label = FormatData($type);
+    $descriptions = [
+        'internet' => "View all Internet service providers in $city, $state. Compare Internet plans, prices and new promotions and pick the best provider that fits within your budget.",
+        'tv' => "Compare TV providers in $city, $state. View TV plans and deals and choose the best provider that fits within your budget.",
+        'landline' => "Find the best home phone service providers in $city, $state. Compare providers, plans, prices and amenities to set your landline up.",
+        'home-security' => "Find reliable, trustworthy, and affordable home security systems in $city, $state and protect your property like never before.",
+        'moving' => "Compare top moving companies in $city, $state. Get quotes from trusted movers and find the best rates for your relocation.",
+        'solar' => "Find top solar installers in $city, $state. Compare solar panel costs, savings, and financing options for your home.",
+        'insurance' => "Compare auto and home insurance rates in $city, $state. Find affordable coverage from top insurance providers.",
+        'health-insurance' => "Explore health insurance plans in $city, $state. Compare coverage options and find affordable health insurance today.",
+    ];
+    return isset($descriptions[$type]) ? $descriptions[$type] : "Find top $label providers in $city, $state. Compare options and choose the best fit for your needs.";
 }
 
 function Generate_Title_For_State() {
@@ -279,15 +273,8 @@ function Generate_Title_For_State() {
     $zipcode = isset($wp_query->query_vars['post_slug']) ? $wp_query->query_vars['post_slug'] : '';
     $type    = isset($wp_query->query_vars['service']) ? $wp_query->query_vars['service'] : '';
 
-    if($type === "internet"){
-        return "Top $type Providers in $state |  Top Providers";
-    } elseif ($type === "tv") {
-        return "TV Providers in $state |  Top Providers";
-    }elseif ($type === "landline") {
-        return "Landline Home Phone Service Providers in $state |  Top Providers";
-    }elseif ($type === "home-security") {
-        return "Home Security Systems in $state |  Top Providers";
-    }
+    $label = FormatData($type);
+    return "Top $label Providers in $state | Top Providers";
 }
 
 function Generate_Description_For_State() {
@@ -296,17 +283,31 @@ function Generate_Description_For_State() {
     $zipcode = get_query_var('post_slug', '');
     $type = get_query_var('service', '');
 
-    if($type === "internet"){
-        return  "View all Internet service providers in $state. Compare Internet plans, prices and new promotions and pick the best provider that fits within your budget.";
-    } elseif ($type === "tv") {
-        return "Compare TV providers in $state. View TV plans and deals and choose the best provider that fits within your budget";
-    }elseif ($type === "landline") {
-        return "Find the best home phone service providers in $state. Compare providers, plans, prices and amenities to set your landline up.";
-    }elseif ($type === "home-security") {
-        return "Find reliable, trustworthy, and affordable home security systems in $state and protect your property like never before.";
-    }
+    $label = FormatData($type);
+    $descriptions = [
+        'internet' => "View all Internet service providers in $state. Compare Internet plans, prices and new promotions and pick the best provider that fits within your budget.",
+        'tv' => "Compare TV providers in $state. View TV plans and deals and choose the best provider that fits within your budget.",
+        'landline' => "Find the best home phone service providers in $state. Compare providers, plans, prices and amenities to set your landline up.",
+        'home-security' => "Find reliable, trustworthy, and affordable home security systems in $state and protect your property like never before.",
+        'moving' => "Compare top moving companies in $state. Get quotes from trusted movers and find the best rates for your relocation.",
+        'solar' => "Find top solar installers in $state. Compare solar panel costs, savings, and financing options for your home.",
+        'insurance' => "Compare auto and home insurance rates in $state. Find affordable coverage from top insurance providers.",
+        'health-insurance' => "Explore health insurance plans in $state. Compare coverage options and find affordable health insurance today.",
+    ];
+    return isset($descriptions[$type]) ? $descriptions[$type] : "Find top $label providers in $state. Compare options and choose the best fit for your needs.";
 }
 
+
+function Generate_Title_For_Service() {
+    global $wp_query;
+    $type = isset($wp_query->query_vars['service']) ? $wp_query->query_vars['service'] : '';
+    return 'Top ' . ucwords(str_replace('-', ' ', $type)) . ' Service Providers | Top Providers';
+}
+
+function Generate_Description_For_Service() {
+    $type = get_query_var('service', '');
+    return 'Compare top ' . str_replace('-', ' ', $type) . ' service providers. Find the best plans, prices, and deals in your area with Top Providers.';
+}
 
 function Generate_Canonical_Tag($canonical) {
     global $wp_query;

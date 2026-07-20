@@ -1,4 +1,4 @@
-<?php 
+﻿<?php 
 
 
 global $wp_query;
@@ -14,8 +14,8 @@ add_filter('wpseo_metadesc', 'Generate_Description_For_Zipcode');
 add_filter('wpseo_canonical', 'Generate_Canonical_Tag', 10);
 get_header();
 
-   $zip_codes_to_search = get_zipcodes_by_city($city);
-    // $city = FormatData($qcity);
+$json_types = ['moving', 'solar', 'insurance', 'health-insurance'];
+    $zip_codes_to_search = get_zipcodes_by_city($city);
     $provider_ids = create_meta_query_for_zipcodes($zip_codes_to_search, $type);  
 
 ?>
@@ -99,20 +99,19 @@ $query_fast = new WP_Query($query_args_fast);
     <div class="container mx-auto px-4">
         <div class="flex justify-center flex-col items-center">
             <h1 class="sm:text-5xl text-2xl font-bold text-center max-w-[850px] mx-auto capitalize leading-10">
-                <?php echo FormatData($type) ?> Providers in <br />
-                ZIP Code <span class="text-[#6041BB]"><?php echo $zipcode ?></span>
+                <?php echo esc_html(FormatData($type)) ?> Providers in <br />
+                ZIP Code <span class="text-[#6041BB]"><?php echo esc_html($zipcode) ?></span>
             </h1>
-            <p class="text-xl text-center font-[Roboto] my-5">Enter your zip so we can find the best
-                <?php echo FormatData($type) ?> Providers in your area:
+            <p class="text-xl text-center font-[Roboto] my-5">Search for <?php echo esc_html(FormatData($type)) ?> providers in your area — just enter your ZIP code to compare plans and pricing:
             </p>
             <div class="!max-w-[712px] w-full bg-white z-30 rounded-2xl mx-auto">
                 <?php get_template_part('template-parts/search', 'form'); ?>
             </div>
         </div>
     </div>
-    <img src="<?php echo get_template_directory_uri(); ?>/images/business.webp"
+    <img src="<?php echo get_template_directory_uri(); ?>/images/business.webp" alt=""
         class="absolute right-0 z-10 bottom-0 w-72" />
-    <img src="<?php echo get_template_directory_uri(); ?>/images/wave1.png"
+    <img src="<?php echo get_template_directory_uri(); ?>/images/wave1.png" alt=""
         class="absolute opacity-40 -left-60 -bottom-0 w-[800px]" />
 </section>
 
@@ -121,7 +120,7 @@ $query_fast = new WP_Query($query_args_fast);
     <div class="container mx-auto px-4">
         <div class="mb-10">
             <h2 class="text-2xl text-center md:text-left font-bold capitalize leading-10">
-                <?php echo FormatData($type)  ?> Providers in <span class="text-[#96B93A]"><?php echo $zipcode ?>
+                <?php echo esc_html(FormatData($type))  ?> Providers in <span class="text-[#96B93A]"><?php echo esc_html($zipcode) ?>
                 </span></h2>
         </div>
         <div class="mb-7 flex sm:flex-row gap-4 flex-col justify-between items-center">
@@ -141,17 +140,17 @@ $query_fast = new WP_Query($query_args_fast);
 
         <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             <?php
-            // Query the posts
                 $query = new WP_Query($args);
                 $i = 0;
                 if ($query->have_posts()) {
                     while ($query->have_posts()) { $query->the_post(); $i++; set_query_var('provider_index', $i);     
                         get_template_part( 'template-parts/provider', 'card' );
                     }
+                } elseif (in_array($type, $json_types)) {
+                    render_providers_from_json($type);
                 } else {
                     echo 'No providers found with the specified zip code.';
                 }
-                // Reset post data
                 wp_reset_postdata();
             ?>
         </div>
@@ -166,12 +165,13 @@ $query_fast = new WP_Query($query_args_fast);
 
 
 <!-- Cheep ZIP Sections -->
+<?php if (!in_array($type, $json_types)): ?>
 <section class="my-8">
     <div class="container mx-auto px-4">
         <div class="mb-10">
             <h2 class="text-2xl font-bold capitalize leading-10">What are the Cheap
-                <?php echo str_replace(['-'], ' ', $type); ?> Providers in
-                <span class="text-[#96B93A]"><?php echo $zipcode ?>, <?php echo $state ?> </span>
+                <?php echo esc_html(str_replace(['-'], ' ', $type)); ?> Providers in
+                <span class="text-[#96B93A]"><?php echo esc_html($zipcode) ?>, <?php echo esc_html($state) ?> </span>
             </h2>
         </div>
         <div
@@ -202,6 +202,7 @@ $query_fast = new WP_Query($query_args_fast);
         <div class="grid">
             <?php
                 if ($query_cheep->have_posts()) {
+                    $i = 0;
                     while ($query_cheep->have_posts()) {
                         $query_cheep->the_post();
                         $i++;
@@ -230,8 +231,7 @@ $query_fast = new WP_Query($query_args_fast);
                     <div
                         class="border-l border-r border-b grid justify-center md:p-5 p-2 md:h-auto h-[120px] items-center">
                         <div>
-                            <p class="text-center md:text-base text-xs"><a target="_blank" href="/providers/xfinity">
-                                    <?php the_title()?> </a></p>
+                            <p class="text-center md:text-base text-xs"><?php the_title()?></p>
                         </div>
                     </div>
 
@@ -262,378 +262,19 @@ $query_fast = new WP_Query($query_args_fast);
                     wp_reset_postdata();
                 ?>
         </div>
+        </div>
     </div>
 </section>
-
-
-
-
-
-<!-- What are the Best ZIP Section  -->
-<!-- <section class="my-16">
-    <div class="container mx-auto px-4">
-        <div class="mb-10">
-            <h2 class="text-2xl font-bold capitalize leading-10">What are the Best <?php echo str_replace(['-'], ' ', $type); ?> Providers in
-                <span class="text-[#96B93A]"><?php echo $zipcode ?>, <?php echo $state ?> </span></h2>
-        </div>
-        <div class="md:w-full min-w-fit grid  bg-[#6041BB] <?php if ($type !== 'home-security'): ?>grid-cols-3<?php else: ?> grid-cols-2 <?php endif; ?>">
-            <div class="border-r grid justify-center md:p-5 p-2 md:h-auto h-[120px] items-center">
-                <div>
-                    <h4 class="md:text-base text-xs text-center text-white">Provider</h4>
-                </div>
-            </div>
-            <?php if ($type !== 'home-security'): ?>
-                <div class="grid justify-center border-r md:p-5 p-2 md:h-auto h-[120px] items-center">
-                    <div>
-                        <h4 class="md:text-base text-xs text-center text-white">Connection </h4>
-                    </div>
-                </div>
-            <?php endif; ?>
-            <div class="grid justify-center md:p-5 p-2 md:h-auto h-[120px] items-center border-r">
-                <div>
-                    <h4 class="md:text-base text-xs text-center text-white">Best For:</h4>
-                </div>
-            </div>
-        </div>
-        <div class="grid">
-            <?php
-                    if ($query_fast->have_posts()) {
-                        while ($query_fast->have_posts()) {
-                            $query_fast->the_post();
-                            $i++;
-                            set_query_var('provider_index', $i);
-                            $servicesInfo = get_field('services_info');
-                            if ($type == 'internet') {
-                                $services = $servicesInfo["internet_services"];
-                            } elseif ($type == 'tv') {
-                                $services = $servicesInfo["tv_services"];
-                            } elseif ($type == 'landline') {
-                                $services = $servicesInfo["landline_services"];
-                            } else {
-                                $services = $servicesInfo["home_security_services"];
-                            }
-
-                        //  var_dump($services);
-                        $price =  $services['price'];
-                        $summary_speed =  $services['summary_speed'];
-                        $connection_type =  $services['connection_type'];
-                        $fast_package =  $services['fast_package'];
-                        ?>
-            <div class="w-full mx-auto h-auto bg-[#fafafa]">
-                <div class="w-full h-auto flex md:flex-col flex-row items-stretch">
-                    <div class="md:w-full w-full grid <?php if ($type !== 'home-security'): ?>grid-cols-3<?php else: ?> grid-cols-2 <?php endif; ?>">
-                        <div
-                            class="border-l border-r border-b grid justify-center md:p-5 p-2 md:h-auto h-[120px] items-center">
-                            <div>
-                                <p class="text-center md:text-base text-xs"><a target="_blank"
-                                        href="/providers/earthlink"><?php the_title()?></a></p>
-                            </div>
-                        </div>
-                        <div class="border-r border-b grid justify-center md:p-5 p-2 md:h-auto h-[120px] items-center">
-                            <?php echo $connection_type ?> </div>
-                         <div
-                            class="border-r border-b grid justify-center md:p-5 p-2 md:h-auto h-[120px] items-center">
-                            Best For</div>
-
-                    </div>
-                </div>
-            </div>
-            <?php
-                        }
-                    } else {
-                        echo 'No providers found with the specified zip codes.';
-                    }
-                    
-                    // Reset post data
-                    wp_reset_postdata();
-                ?>
-        </div>
-    </div>
-</section> -->
-
-
-<!-- Fee Sections -->
-<!-- <?php if ($type === 'internet'): ?>
-    <section class="my-16">
-        <div class="container mx-auto px-4">
-            <div class="mb-10">
-                <h2 class="text-2xl font-bold capitalize leading-10">What are the <?php echo $type ?> Fees in
-                    <span class="text-[#96B93A]"><?php echo $zipcode ?>, <?php echo $state ?> </span>
-                </h2>
-            </div>
-            <div class="md:w-full min-w-fit grid grid-cols-4 bg-[#6041BB] md:grid-cols-4">
-                <div class="border-r grid justify-center md:p-5 p-2 md:h-auto h-[120px] items-center">
-                    <div>
-                        <h4 class="md:text-base text-xs text-center text-white">Provider</h4>
-                    </div>
-                </div>
-                <div class="grid border-r justify-center md:p-5 p-2 md:h-auto h-[120px] items-center">
-                    <div>
-                        <h4 class="md:text-base text-xs text-center text-white">Equipment Rental Fee</h4>
-                    </div>
-                </div>
-                <div class="grid border-r justify-center md:p-5 p-2 md:h-auto h-[120px] items-center">
-                    <div>
-                        <h4 class="md:text-base text-xs text-center text-white">Setup Fee</h4>
-                    </div>
-                </div>
-                <div class="grid justify-center md:p-5 p-2 md:h-auto h-[120px] items-center border-r">
-                    <div>
-                        <h4 class="md:text-base text-xs text-center text-white">Early Termination Fee</h4>
-                    </div>
-                </div>
-            </div>
-            <div class="grid">
-                <?php
-                        if ($query_fast->have_posts()) {
-                            while ($query_fast->have_posts()) {
-                                $query_fast->the_post();
-                                $i++;
-                                set_query_var('provider_index', $i);
-                                $servicesInfo = get_field('services_info');
-                                if ($type == 'internet') {
-                                    $services = $servicesInfo["internet_services"];
-                                } elseif ($type == 'tv') {
-                                    $services = $servicesInfo["tv_services"];
-                                } elseif ($type == 'landline') {
-                                    $services = $servicesInfo["landline_services"];
-                                } else {
-                                    $services = $servicesInfo["home_security_services"];
-                                }
-
-
-
-                            // var_dump($services);
-                            $price =  $services['price'];
-                            $early_termination_fee =  $services['early_termination_fee'];
-                            $setup_fee =  $services['setup_fee'];
-                            $equipment_rental_fee =  $services['equipment_rental_fee'];
-                            ?>
-                <div class="w-full mx-auto h-auto bg-[#fafafa]">
-                    <div class="w-full h-auto flex md:flex-col flex-row items-stretch">
-                        <div class="md:w-full w-full grid grid-cols-4 md:grid-cols-4">
-                            <div class="border-l border-r border-b grid justify-center md:p-5 p-2 md:h-auto h-[120px] items-center">
-                                <div>
-                                    <p class="text-center md:text-base text-xs"><a target="_blank" href="/providers/earthlink"><?php the_title()?></a></p>
-                                </div>
-                            </div>
-                            <div class="border-r border-b grid justify-center md:p-5 p-2 md:h-auto h-[120px] items-center">
-                                $<?php echo $equipment_rental_fee ?>
-                            </div>
-                            <div class="border-r border-b grid justify-center md:p-5 p-2 md:h-auto h-[120px] items-center">
-                                $<?php echo $setup_fee ?>
-                            </div>
-                            <div class="border-r border-b grid justify-center md:p-5 p-2 md:h-auto h-[120px] items-center">
-                                $<?php echo $early_termination_fee ?>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <?php
-                            }
-                        } else {
-                            echo 'No providers found with the specified zip codes.';
-                        }
-                        
-                        // Reset post data
-                        wp_reset_postdata();
-                    ?>
-            </div>
-        </div>
-    </section>
 <?php endif; ?>
-
-<?php if ($type === 'tv'): ?>
-    <section class="my-16">
-        <div class="container mx-auto px-4">
-            <div class="mb-10">
-                <h2 class="text-2xl font-bold capitalize leading-10">What are the Cable TV Fees in
-                    <span class="text-[#96B93A]"><?php echo $zipcode ?>, <?php echo $state ?> </span>
-                </h2>
-            </div>
-            <div class="md:w-full min-w-fit grid grid-cols-5 bg-[#6041BB] md:grid-cols-5">
-                <div class="border-r grid justify-center md:p-5 p-2 md:h-auto h-[120px] items-center">
-                    <div>
-                        <h4 class="md:text-base text-xs text-center text-white">Provider</h4>
-                    </div>
-                </div>
-                <div class="grid border-r justify-center md:p-5 p-2 md:h-auto h-[120px] items-center">
-                    <div>
-                        <h4 class="md:text-base text-xs text-center text-white">Setup Fee</h4>
-                    </div>
-                </div>
-                <div class="grid border-r justify-center md:p-5 p-2 md:h-auto h-[120px] items-center">
-                    <div>
-                        <h4 class="md:text-base text-xs text-center text-white">Equipment Rental Fee</h4>
-                    </div>
-                </div>
-                <div class="grid border-r justify-center md:p-5 p-2 md:h-auto h-[120px] items-center">
-                    <div>
-                        <h4 class="md:text-base text-xs text-center text-white">Early Termination Fee</h4>
-                    </div>
-                </div>
-                <div class="grid justify-center md:p-5 p-2 md:h-auto h-[120px] items-center border-r">
-                    <div>
-                        <h4 class="md:text-base text-xs text-center text-white">Broadcast Fee</h4>
-                    </div>
-                </div>
-            </div>
-            <div class="grid">
-                <?php
-                        if ($query_fast->have_posts()) {
-                            while ($query_fast->have_posts()) {
-                                $query_fast->the_post();
-                                $i++;
-                                set_query_var('provider_index', $i);
-                                $servicesInfo = get_field('services_info');
-                                if ($type == 'internet') {
-                                    $services = $servicesInfo["internet_services"];
-                                } elseif ($type == 'tv') {
-                                    $services = $servicesInfo["tv_services"];
-                                } elseif ($type == 'landline') {
-                                    $services = $servicesInfo["landline_services"];
-                                } else {
-                                    $services = $servicesInfo["home_security_services"];
-                                }
-
-
-
-                            // var_dump($services);
-                            $price =  $services['price'];
-                            $early_termination_fee =  $services['early_termination_fee'];
-                            $setup_fee =  $services['setup_fee'];
-                            $equipment_rental_fee =  $services['equipment_rental_fee'];
-                            $broadcast_tv_fee =  $services['broadcast_tv_fee'];
-                            ?>
-                <div class="w-full mx-auto h-auto bg-[#fafafa]">
-                    <div class="w-full h-auto flex md:flex-col flex-row items-stretch">
-                        <div class="md:w-full w-full grid grid-cols-5 md:grid-cols-5">
-                            <div class="border-l border-r border-b grid justify-center md:p-5 p-2 md:h-auto h-[120px] items-center">
-                                <div>
-                                    <p class="text-center md:text-base text-xs"><a target="_blank" href="/providers/earthlink"><?php the_title()?></a></p>
-                                </div>
-                            </div>
-                            <div class="border-r border-b grid justify-center md:p-5 p-2 md:h-auto h-[120px] items-center">
-                                $<?php echo $setup_fee ?>
-                            </div>
-                            <div class="border-r border-b grid justify-center md:p-5 p-2 md:h-auto h-[120px] items-center">
-                                $<?php echo $equipment_rental_fee ?>
-                            </div>
-                            <div class="border-r border-b grid justify-center md:p-5 p-2 md:h-auto h-[120px] items-center">
-                                $<?php echo $early_termination_fee ?>
-                            </div>
-                            <div class="border-r border-b grid justify-center md:p-5 p-2 md:h-auto h-[120px] items-center">
-                                $<?php echo $broadcast_tv_fee ?>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <?php
-                            }
-                        } else {
-                            echo 'No providers found with the specified zip codes.';
-                        }
-                        
-                        // Reset post data
-                        wp_reset_postdata();
-                    ?>
-            </div>
-        </div>
-    </section>
-<?php endif; ?>
-
-<?php if ($type === 'home-security' || $type === 'landline'): ?>
-    <section class="my-16">
-        <div class="container mx-auto px-4">
-            <div class="mb-10">
-                <h2 class="text-2xl font-bold capitalize leading-10">What are the 
-                    <?php if ($type === 'landline'): ?>Landline Home Phone <?php endif; ?>
-                    <?php if ($type === 'home-security'): ?>Home Security Systems<?php endif; ?>
-                    Fees in
-                    <span class="text-[#96B93A]"><?php echo $zipcode ?>, <?php echo $state ?> </span>
-                </h2>
-            </div>
-            <div class="md:w-full min-w-fit grid grid-cols-3 bg-[#6041BB] md:grid-cols-3">
-                <div class="border-r grid justify-center md:p-5 p-2 md:h-auto h-[120px] items-center">
-                    <div>
-                        <h4 class="md:text-base text-xs text-center text-white">Provider</h4>
-                    </div>
-                </div>
-                <div class="grid border-r justify-center md:p-5 p-2 md:h-auto h-[120px] items-center">
-                    <div>
-                        <h4 class="md:text-base text-xs text-center text-white">Setup Fee</h4>
-                    </div>
-                </div>
-                <div class="grid justify-center md:p-5 p-2 md:h-auto h-[120px] items-center border-r">
-                    <div>
-                        <h4 class="md:text-base text-xs text-center text-white">Early Termination Fee</h4>
-                    </div>
-                </div>
-            </div>
-            <div class="grid">
-                <?php
-                        if ($query_fast->have_posts()) {
-                            while ($query_fast->have_posts()) {
-                                $query_fast->the_post();
-                                $i++;
-                                set_query_var('provider_index', $i);
-                                $servicesInfo = get_field('services_info');
-                                if ($type == 'internet') {
-                                    $services = $servicesInfo["internet_services"];
-                                } elseif ($type == 'tv') {
-                                    $services = $servicesInfo["tv_services"];
-                                } elseif ($type == 'landline') {
-                                    $services = $servicesInfo["landline_services"];
-                                } else {
-                                    $services = $servicesInfo["home_security_services"];
-                                }
-
-
-
-                            // var_dump($services);
-                            $price =  $services['price'];
-                            $early_termination_fee =  $services['early_termination_fee'];
-                            $setup_fee =  $services['setup_fee'];
-                            $equipment_rental_fee =  $services['equipment_rental_fee'];
-                            ?>
-                <div class="w-full mx-auto h-auto bg-[#fafafa]">
-                    <div class="w-full h-auto flex md:flex-col flex-row items-stretch">
-                        <div class="md:w-full w-full grid grid-cols-3 md:grid-cols-3">
-                            <div class="border-l border-r border-b grid justify-center md:p-5 p-2 md:h-auto h-[120px] items-center">
-                                <div>
-                                    <p class="text-center md:text-base text-xs"><a target="_blank" href="/providers/earthlink"><?php the_title()?></a></p>
-                                </div>
-                            </div>
-                            <div class="border-r border-b grid justify-center md:p-5 p-2 md:h-auto h-[120px] items-center">
-                                $<?php echo $setup_fee ?>
-                            </div>
-                            <div class="border-r border-b grid justify-center md:p-5 p-2 md:h-auto h-[120px] items-center">
-                                $<?php echo $early_termination_fee ?>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <?php
-                            }
-                        } else {
-                            echo 'No providers found with the specified zip codes.';
-                        }
-                        
-                        // Reset post data
-                        wp_reset_postdata();
-                    ?>
-            </div>
-        </div>
-    </section>
-<?php endif; ?> -->
 
 
 <!-- Summary Of Providers -->
+<?php if (!in_array($type, $json_types)): ?>
 <section class="my-16">
     <div class="container mx-auto px-4">
         <div class="mb-10">
             <h2 class="text-2xl font-bold">Summary of <?php echo FormatData($type); ?> Providers in
-                <span class="text-[#96B93A]"><?php echo $zipcode ?>, <?php echo $state ?> </span>
+                <span class="text-[#96B93A]"><?php echo esc_html($zipcode) ?>, <?php echo esc_html($state) ?> </span>
             </h2>
         </div>
         <div>
@@ -692,10 +333,11 @@ $query_fast = new WP_Query($query_args_fast);
 
                         <?php
                             
-                                if ($query->have_posts()) {
-                                    while ($query->have_posts()) {
-                                        $query->the_post();
-                                        $i++;
+                            if ($query->have_posts()) {
+                                $i = 0;
+                                while ($query->have_posts()) {
+                                    $query->the_post();
+                                    $i++;
                                         set_query_var('provider_index', $i);
                                         $servicesInfo = get_field('services_info');
                                         $type = get_query_var('type');
@@ -715,8 +357,7 @@ $query_fast = new WP_Query($query_args_fast);
                             <div
                                 class="w-full md:border-r border-r-0  border-b grid justify-center md:p-5 p-2 md:h-auto h-[120px] items-center">
                                 <div>
-                                    <p class="text-center md:text-base text-xs"><a target="_blank"
-                                            href="/providers/hughesnet"> <?php the_title()?> </a> </p>
+                                    <p class="text-center md:text-base text-xs"><?php the_title()?></p>
                                 </div>
                             </div>
 
@@ -743,7 +384,7 @@ $query_fast = new WP_Query($query_args_fast);
                                 <div>
                                     <p class="text-center md:text-base text-xs">
                                         <?php if ($type === 'home-security'): ?><?php echo $feature ?><?php endif; ?>
-                                        <?php if ($type === 'landline'): ?><?php echo $type ?><?php endif; ?>
+                                        <?php if ($type === 'landline'): ?><?php echo esc_html($type) ?><?php endif; ?>
                                     </p>
                                 </div>
                             </div>
@@ -774,156 +415,43 @@ $query_fast = new WP_Query($query_args_fast);
         </div>
     </div>
 </section>
+<?php endif; ?>
 
+<?php
+$faqs = [];
+$internet_faqs = [
+    ["question" => "1. Who is the Best Internet Service Provider in $zipcode?", "answer" => "5 Internet service providers are available in $zipcode Based on the availability HughesNet is the best internet service provider in $zipcode"],
+    ["question" => "2. Who is the fastest Internet service provider in $zipcode?", "answer" => "HughesNet is the fastest internet service provider in $zipcode and offers max download speeds up to in select areas."],
+    ["question" => "3. Who is the cheapest Internet service provider in $zipcode?", "answer" => "HughesNet is the cheapest internet service provider in $zipcode with price starting from \$55.00."],
+    ["question" => "4. What is the typical internet speed options offered in $zipcode?", "answer" => "In $zipcode internet speed options can vary among internet service providers but most plans include speeds from 25 mbps to 5000 mbps."],
+    ["question" => "5. How do I check the availability of Internet service providers in $zipcode?", "answer" => "To check Internet service providers availability, Enter your zip code to find the best internet options available to you."]
+];
+$tv_faqs = [
+    ["question" => "How do I check the availability of TV service providers in $zipcode", "answer" => "To check TV service providers availability, Enter your zip code to find the best TV options available to you."],
+    ["question" => "2. How do I setup TV service in my new home in $zipcode?", "answer" => "To setup TV service in your new home, contact the above listed service providers, inquire about their plans and select the plan that works for you."],
+    ["question" => "3. Can I get TV service without any contract in $zipcode?", "answer" => "Yes. A few TV service providers in $zipcode offer no contract or month to month services. Call the providers to know more."],
+    ["question" => "4. Who is the Best TV Service Provider in $zipcode?", "answer" => "4 TV service providers are available in $zipcode Based on the availability and pricing DISH is the best TV service provider in $zipcode ."],
+    ["question" => "5. Who is the cheapest TV service provider in $zipcode?", "answer" => "DISH is the cheapest TV service provider in $zipcode with price starting from \$79.99"]
+];
+$internet_tv = [
+    ["question" => "1. How do I check the availability of Internet and TV service providers in $zipcode?", "answer" => "To check Internet and TV service providers bundles availability, Enter your zip code to find the best bundle options available to you."],
+    ["question" => "2. How do I setup internet and TV service in my new home in $zipcode?", "answer" => "To setup internet and TV service in your new home, contact the above listed service providers, inquire about their plans and select the plan that works for you."],
+    ["question" => "3. Can I get internet and TV bundle without any contract in $zipcode?", "answer" => "Yes. A few service providers in $zipcode offer no contract or month to month services. Check with the providers to know more."],
+    ["question" => "4. Who is the cheapest Internet service provider in $zipcode", "answer" => "bundle service providers are available in $zipcode. Based on the availability DIRECTV is the best bundle service provider in $zipcode."],
+    ["question" => "5. Can I bundle Internet and TV service in $zipcode ?", "answer" => "Yes. Many providers in $zipcode offer bundle options to combine internet and TV services for potential cost savings."],
+];
 
-<!-- FAQ’s -->
-<section class="my-16">
-    <div class="container mx-auto px-4">
-        <div class="mb-10">
-            <h2 class="text-2xl font-bold">FAQs</h2>
-        </div>
-        <div class="grid gap-10">
-            <?php
-                // Define an array of FAQs
-                $total_providers_count = $query_fast->found_posts;
-                $first_provider = $query_fast->posts[0];
-                $first_provider_title = get_the_title($first_provider->ID);
-                
-                $faqs;
-                $internet_faqs = [
-                    [
-                        "question" => "1. Who is the Best Internet Service Provider in $zipcode?",
-                        "answer" => "5 Internet service providers are available in $zipcode Based on the availability HughesNet is the best internet service provider in $zipcode"
-                    ],
-                    [
-                        "question" => "2. Who is the fastest Internet service provider in $zipcode?",
-                        "answer" => "HughesNet is the fastest internet service provider in $zipcode and offers max download speeds up to in select areas."
-                    ],
-                    [
-                        "question" => "3. Who is the cheapest Internet service provider in $zipcode?",
-                        "answer" => "HughesNet is the cheapest internet service provider in $zipcode with price starting from $55.00."
-                    ],
-                    [
-                        "question" => "4. What is the typical internet speed options offered in $zipcode?",
-                        "answer" => "In $zipcode internet speed options can vary among internet service providers but most plans include speeds from 25 mbps to 5000 mbps."
-                    ],
-                    [
-                        "question" => "5. How do I check the availability of Internet service providers in $zipcode?",
-                        "answer" => "To check Internet service providers availability, Enter your zip code to find the best internet options available to you."
-                    ]
-                ];
-                $tv_faqs = [
-                    [
-                        "question" => "How do I check the availability of TV service providers in $zipcode",
-                        "answer" => "To check TV service providers availability, Enter your zip code to find the best TV options available to you."
-                    ],
-                    [
-                        "question" => "2. How do I setup TV service in my new home in $zipcode?",
-                        "answer" => "To setup TV service in your new home, contact the above listed service providers, inquire about their plans and select the plan that works for you."
-                    ],
-                    [
-                        "question" => "3. Can I get TV service without any contract in $zipcode?",
-                        "answer" => "Yes. A few TV service providers in $zipcode offer no contract or month to month services. Call the providers to know more."
-                    ],
-                    [
-                        "question" => "4. Who is the Best TV Service Provider in $zipcode?",
-                        "answer" => "4 TV service providers are available in $zipcode Based on the availability and pricing DISH is the best TV service provider in $zipcode ."
-                    ],
-                    [
-                        "question" => "5. Who is the cheapest TV service provider in $zipcode?",
-                        "answer" => "DISH is the cheapest TV service provider in $zipcode with price starting from $79.99"
-                    ]
-                ];
-                $internet_tv = [
-                    [
-                        "question" => "1. How do I check the availability of Internet and TV service providers in $zipcode?",
-                        "answer" => "To check Internet and TV service providers bundles availability, Enter your zip code to find the best bundle options available to you."
-                    ],
-                    [
-                        "question" => "2. How do I setup internet and TV service in my new home in $zipcode?",
-                        "answer" => "To setup internet and TV service in your new home, contact the above listed service providers, inquire about their plans and select the plan that works for you."
-                    ],
-                    [
-                        "question" => "3. Can I get internet and TV bundle without any contract in $zipcode?",
-                        "answer" => "Yes. A few service providers in $zipcode offer no contract or month to month services. Check with the providers to know more."
-                    ],
-                    [
-                        "question" => "4.	Who is the cheapest Internet service provider in $zipcode",
-                        "answer" => "bundle service providers are available in $zipcode. Based on the availability DIRECTV is the best bundle service provider in $zipcode."
-                    ],
-                    [
-                        "question" => "5. Can I bundle Internet and TV service in $zipcode ?",
-                        "answer" => "Yes. Many providers in $zipcode offer bundle options to combine internet and TV services for potential cost savings."
-                    ],
-                ];
-                
- 
-                if ($type === 'tv'):
-                    $faqs = $tv_faqs;
-                elseif ($type === 'internet'):
-                    $faqs = $internet_faqs;
-                elseif ($type === 'internet-tv'):
-                    $faqs = $internet_tv;
-                else:
-                    $faqs = $home_security_faqs;
-                endif;
+if ($type === 'tv'):
+    $faqs = $tv_faqs;
+elseif ($type === 'internet'):
+    $faqs = $internet_faqs;
+elseif ($type === 'internet-tv'):
+    $faqs = $internet_tv;
+endif;
 
-                // Loop through the FAQs array
-                foreach ($faqs as $faq) {
-                    $question = $faq['question'];
-                    $answer = $faq['answer'];
-            ?>
-            <div
-                class="faq-item w-full h-fit border border-[#F0F0F0] rounded-[10px] p-[30px] shadow-[0_15px_15px_rgba(0,0,0,0.05)]">
-                <div class="faq-question flex justify-between cursor-pointer">
-                    <p class="text-lg font-semibold"><?php echo $question; ?></p>
-                    <span class="faq-icon text-lightBlue">
-                        <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024"
-                            class="faq-arrow transform transition duration-200 rotate-0" height="24" width="24"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path d="M474 152m8 0l60 0q8 0 8 8l0 704q0 8-8 8l-60 0q-8 0-8-8l0-704q0-8 8-8Z"></path>
-                            <path d="M168 474m8 0l672 0q8 0 8 8l0 60q0 8-8 8l-672 0q-8 0-8-8l0-60q0-8 8-8Z"></path>
-                        </svg>
-                    </span>
-                </div>
-                <div class="faq-answer hidden mt-5">
-                    <p class="text-base font-medium"><?php echo $answer; ?></p>
-                </div>
-            </div>
-            <?php
-                }
-            ?>
-        </div>
-    </div>
-</section>
-
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const faqItems = document.querySelectorAll('.faq-item');
-
-    faqItems.forEach((item) => {
-        const question = item.querySelector('.faq-question');
-        const answer = item.querySelector('.faq-answer');
-        const arrow = item.querySelector('.faq-arrow');
-
-        question.addEventListener('click', () => {
-            // Close all other open FAQ items
-            faqItems.forEach((otherItem) => {
-                const otherAnswer = otherItem.querySelector('.faq-answer');
-                const otherArrow = otherItem.querySelector('.faq-arrow');
-                if (otherItem !== item) {
-                    otherAnswer.classList.add('hidden');
-                    otherArrow.classList.remove('rotate-45');
-                }
-            });
-
-            // Toggle the clicked item
-            answer.classList.toggle('hidden');
-            arrow.classList.toggle('rotate-45');
-        });
-    });
-});
-</script>
+set_query_var('faq_title', 'FAQs');
+set_query_var('faq_items', $faqs);
+get_template_part('template-parts/section/faq');
+?>
 
 <?php get_footer();

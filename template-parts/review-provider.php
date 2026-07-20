@@ -38,7 +38,7 @@
                                 $starSrc = get_bloginfo('template_directory') . '/images/trustpilot-star.png';
                                 $starClass = '';
                             }
-                            echo '<img src="' . $starSrc . '" class="lg:!w-10 lg:!h-10 md:!h-8 md:!w-8 h-5 w-5 ' . $starClass . '" />';
+                            echo '<img src="' . esc_url($starSrc) . '" alt="' . esc_attr($rating) . ' star rating" class="lg:!w-10 lg:!h-10 md:!h-8 md:!w-8 h-5 w-5 ' . esc_attr($starClass) . '" />';
                         }
                     ?>
                     <p class="font-semibold text-[#6A6A93] ml-1"><?php echo $rating; ?></p>
@@ -76,7 +76,7 @@
                 </svg>
                 <h2 class="text-sm sm:text-base text-left font-black "><?php the_title() ?></h2>
             </span>
-            <p class="font-medium text-left text-sm sm:text-base group-hover:text-black text-gray-500">Vist to provider
+            <p class="font-medium text-left text-sm sm:text-base group-hover:text-black text-gray-500">Visit to provider
                 full details</p>
         </div>
         <svg width="20px" height="20px" viewBox="0 0 24 24" fill="inherit">

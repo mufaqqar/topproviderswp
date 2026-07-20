@@ -13,7 +13,7 @@ get_header();
                 Internet Providers in <br />
                 ZIP Code <span class="text-[#96B93A]">your area.</span>
             </h1>
-            <p class="text-xl text-center text-white font-[Roboto] my-5">Enter your zip so we can find the best Internet Providers in your area:</p>
+            <p class="text-xl text-center text-white font-[Roboto] my-5">Compare top internet providers in your area — enter your ZIP code to see plans and pricing:</p>
             <?php get_template_part('template-parts/search', 'form'); ?>
         </div>
     </div>

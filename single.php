@@ -17,6 +17,7 @@ $caption = wp_get_attachment_caption($thumbnail_id);
 $args = array(
     'post_type'      => 'post',
     'posts_per_page' => 5,
+    'post__not_in'   => array($post_id),
     'orderby'        => 'date',
     'order'          => 'DESC'
 );
@@ -68,7 +69,7 @@ $query = new WP_Query($args);
             </h4>
             <div aria-label="Share social media " class="flex item-center gap-2 flex-wrap">
                 <a 
-                    href="https://www.facebook.com/sharer/sharer.php?u=<?php echo esc_url(get_permalink()); ?>" target="_blank"
+                    href="https://www.facebook.com/sharer/sharer.php?u=<?php echo esc_url(get_permalink()); ?>" target="_blank" rel="noopener noreferrer"
                     class="inline-flex items-center py-2 px-6 text-xs font-medium text-gray-900 no-underline bg-white rounded-lg border border-gray-200 focus:outline-none hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200"
                 >
                     <svg class="mr-2 w-4 h-4" fill="currentColor" aria-hidden="true" viewBox="0 0 512 512">
@@ -80,7 +81,7 @@ $query = new WP_Query($args);
                 </a>
 
                 <a
-                    href="https://twitter.com/intent/tweet?text=<?php echo esc_url(get_permalink()); ?>" target="_blank"
+                    href="https://twitter.com/intent/tweet?text=<?php echo esc_url(get_permalink()); ?>" target="_blank" rel="noopener noreferrer"
                     class="inline-flex items-center py-2 px-6 text-xs font-medium text-gray-900 no-underline bg-white rounded-lg border border-gray-200 focus:outline-none hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200"
                 >
                 <svg version="1.1" id="Layer_1" width="24px" height="24px" viewBox="0 0 24 24" class="mr-2 w-4 h-4" xml:space="preserve"><path d="M14.095479,10.316482L22.286354,1h-1.940718l-7.115352,8.087682L7.551414,1H1l8.589488,12.231093L1,23h1.940717  l7.509372-8.542861L16.448587,23H23L14.095479,10.316482z M11.436522,13.338465l-0.871624-1.218704l-6.924311-9.68815h2.981339  l5.58978,7.82155l0.867949,1.218704l7.26506,10.166271h-2.981339L11.436522,13.338465z"/></svg>

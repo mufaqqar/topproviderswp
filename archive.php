@@ -1,13 +1,50 @@
-<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="64px" height="64px" viewBox="0 0 64 64" enable-background="new 0 0 64 64" xml:space="preserve">
-<g>
-	<rect x="16" y="1" fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" width="32" height="62"/>
-	<line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="28" y1="5" x2="36" y2="5"/>
-	<line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="16" y1="51" x2="48" y2="51"/>
-	<line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="16" y1="9" x2="48" y2="9"/>
-	<circle fill="none" stroke="#000000" stroke-width="2" stroke-linejoin="bevel" stroke-miterlimit="10" cx="32" cy="57" r="2"/>
-</g>
-<circle fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" cx="32" cy="30" r="9"/>
-<line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="25.834" y1="23.834" x2="38.166" y2="36.166"/>
-</svg>
+<?php get_header(); ?>
+
+<section class="py-16">
+    <div class="container mx-auto px-4">
+        <h1 class="text-3xl md:text-5xl font-bold mb-8">
+            <?php
+            if (is_category()) {
+                single_cat_title();
+            } elseif (is_tag()) {
+                single_tag_title();
+            } elseif (is_author()) {
+                the_post();
+                echo 'Author: ' . get_the_author();
+                rewind_posts();
+            } elseif (is_day()) {
+                echo 'Day: ' . get_the_date();
+            } elseif (is_month()) {
+                echo 'Month: ' . get_the_date('F Y');
+            } elseif (is_year()) {
+                echo 'Year: ' . get_the_date('Y');
+            } else {
+                the_archive_title();
+            }
+            ?>
+        </h1>
+        <?php if (have_posts()) : ?>
+            <div class="grid md:grid-cols-3 gap-8">
+                <?php while (have_posts()) : the_post(); ?>
+                    <article class="border rounded-lg overflow-hidden shadow">
+                        <?php if (has_post_thumbnail()) : ?>
+                            <img src="<?php the_post_thumbnail_url('medium'); ?>" alt="<?php the_title_attribute(); ?>" class="w-full h-48 object-cover" />
+                        <?php endif; ?>
+                        <div class="p-6">
+                            <h2 class="text-xl font-bold mb-2"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+                            <p class="text-gray-600"><?php echo wp_trim_words(get_the_excerpt(), 20); ?></p>
+                            <a href="<?php the_permalink(); ?>" class="text-blue-600 hover:underline mt-2 inline-block">Read More</a>
+                        </div>
+                    </article>
+                <?php endwhile; ?>
+            </div>
+            <div class="mt-8">
+                <?php the_posts_pagination(); ?>
+            </div>
+        <?php else : ?>
+            <p>No posts found.</p>
+        <?php endif; ?>
+    </div>
+</section>
+
+<?php get_footer(); ?>

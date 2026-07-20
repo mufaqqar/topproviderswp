@@ -42,6 +42,7 @@ add_action('wp_enqueue_scripts', 'enqueue_slick_slider_assets');
 		register_rest_route('custom/v1', '/providers', array(
 			'methods' => 'POST',
 			'callback' => 'custom_rest_endpoint_callback',
+			'permission_callback' => '__return_true',
 		));
 	}
 	add_action('rest_api_init', 'custom_rest_endpoint_init');
@@ -205,6 +206,7 @@ function register_custom_area_zone_endpoint() {
     register_rest_route( 'custom/v1', '/area-zones', array(
         'methods'  => 'GET',
         'callback' => 'custom_area_zone_endpoint',
+        'permission_callback' => '__return_true',
     ) );
 }
 
@@ -252,6 +254,7 @@ function register_city_area_zone_endpoint() {
     register_rest_route( 'custom/v1', '/area-zones-city', array(
         'methods'  => 'GET',
         'callback' => 'city_area_zone_endpoint',
+        'permission_callback' => '__return_true',
     ) );
 }
 
@@ -424,6 +427,7 @@ function handle_review_submission() {
     } else {
         wp_send_json_error('Missing required fields.');
     }
+    wp_die();
 }
 
 // Add AJAX actions for logged-in and non-logged-in users
@@ -432,23 +436,8 @@ add_action('wp_ajax_nopriv_submit_review', 'handle_review_submission');
 
 
 
-// Hook into WordPress initialization
-add_action('init', function() {
-    // Check for the save_xml query parameter
-    if (isset($_GET['save_xml']) && $_GET['save_xml'] == '1') {
-        $file_path = save_xml_file();
-        if ($file_path) {
-            echo "XML file saved to: " . esc_url($file_path);
-        } else {
-            echo "Failed to save XML file.";
-        }
-        exit; // Ensure no further output is sent
-    }
-});
 
-/**
- * Function to save XML file to the sitemaps directory
- */
+
 function save_xml_file() {
     // Define the path to the sitemaps directory
     $upload_dir = wp_upload_dir(); // Get the upload directory
@@ -474,10 +463,90 @@ function save_xml_file() {
 
     // Save the XML to the specified file path
     if ($xml->asXML($file_path)) {
-        return $file_path; // Return the file path on success
+        return $file_path;
     } else {
         error_log('Failed to save XML file.');
-        return false; // Return false on failure
+        return false;
+    }
+}
+
+function load_json_providers($type) {
+    $file = get_template_directory() . '/data/' . $type . '.json';
+    if (!file_exists($file)) return [];
+    $json = file_get_contents($file);
+    $data = json_decode($json, true);
+    return is_array($data) ? $data : [];
+}
+
+function render_providers_from_json($type) {
+    $providers = load_json_providers($type);
+    if (empty($providers)) return;
+    foreach ($providers as $i => $provider) {
+        $index = $i + 1;
+        $title = esc_html($provider['title']);
+        $price = esc_html($provider['price']);
+        $speed = esc_html($provider['speed']);
+        $features = explode(',', $provider['features']);
+        $phone = esc_html($provider['phone']);
+        $view_more = esc_url($provider['view_more']);
+        $connection_type = esc_html($provider['connection_type']);
+        $contract = esc_html($provider['contract']);
+        $setup_fee = esc_html($provider['setup_fee']);
+        $rating = esc_html($provider['rating']);
+        $description = esc_html($provider['description']);
+        $slug = esc_attr($provider['slug']);
+        ?>
+        <div class="w-full flex flex-col p-6 bg-white rounded-lg shadow-lg border border-gray-200">
+            <div class="flex justify-between items-start mb-4">
+                <div>
+                    <h2 class="text-gray-500 font-semibold text-xl mb-1"><?php echo $index; ?> - <?php echo $title; ?></h2>
+                    <span class="inline-block bg-brand-purple text-white text-xs px-2 py-1 rounded"><?php echo $connection_type; ?></span>
+                </div>
+                <div class="text-right">
+                    <span class="text-3xl font-bold">$<?php echo $price; ?></span>
+                    <span class="text-gray-400 text-sm">/mo</span>
+                </div>
+            </div>
+            <hr class="border-gray-300 my-4" />
+            <div class="flex flex-col justify-between h-full">
+                <div>
+                    <p class="text-gray-600 text-sm mb-3"><?php echo $description; ?></p>
+                    <div class="mb-3">
+                        <span class="text-sm font-semibold text-brand-purple"><?php echo $speed; ?></span>
+                    </div>
+                    <ul class="grid gap-1.5 mb-4">
+                        <?php foreach ($features as $f): ?>
+                        <li class="flex gap-2 text-sm text-gray-600">
+                            <span class="text-brand-green font-bold">➤</span>
+                            <span><?php echo esc_html(trim($f)); ?></span>
+                        </li>
+                        <?php endforeach; ?>
+                    </ul>
+                    <div class="grid grid-cols-2 gap-2 text-xs text-gray-500 mb-4">
+                        <?php if ($contract): ?>
+                        <div><span class="font-semibold">Contract:</span> <?php echo $contract; ?></div>
+                        <?php endif; ?>
+                        <?php if ($setup_fee): ?>
+                        <div><span class="font-semibold">Setup:</span> <?php echo $setup_fee; ?></div>
+                        <?php endif; ?>
+                        <?php if ($rating): ?>
+                        <div><span class="font-semibold">Rating:</span> ⭐ <?php echo $rating; ?>/5</div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-3 mt-2">
+                    <a href="tel:<?php echo $phone; ?>"
+                        class="block text-center py-3 text-white bg-brand-orange rounded-md font-semibold hover:bg-brand-purple transition">
+                        Call Now
+                    </a>
+                    <a href="<?php echo $view_more; ?>" target="_blank" rel="noopener noreferrer"
+                        class="block text-center py-3 text-white bg-brand-purple rounded-md font-semibold hover:bg-brand-orange transition">
+                        View Plans
+                    </a>
+                </div>
+            </div>
+        </div>
+        <?php
     }
 }
 

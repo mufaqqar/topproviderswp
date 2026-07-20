@@ -26,6 +26,10 @@
         'Internet Providers' => home_url('/internet/' . $URL),
         'TV Providers' => home_url('/tv/' . $URL),
         'Internet & TV Providers' => home_url('/internet-tv/' . $URL),
+        'Moving Companies' => home_url('/moving/' . $URL),
+        'Solar Installers' => home_url('/solar/' . $URL),
+        'Insurance' => home_url('/insurance/' . $URL),
+        'Health Insurance' => home_url('/health-insurance/' . $URL),
     ];
 
     function containsText($string, $matchText) {
@@ -36,10 +40,20 @@
     function getActiveType($inputString) {
         $activeType = '';
     
-        if (containsText($inputString, "internet-tv")) {
+        if (containsText($inputString, "health-insurance")) {
+            $activeType = "health-insurance";
+        } elseif (containsText($inputString, "internet-tv")) {
             $activeType = "internet-tv";
+        } elseif (containsText($inputString, "home-security")) {
+            $activeType = "home-security";
         } elseif (containsText($inputString, "tv")) {
             $activeType = "tv";
+        } elseif (containsText($inputString, "solar")) {
+            $activeType = "solar";
+        } elseif (containsText($inputString, "moving")) {
+            $activeType = "moving";
+        } elseif (containsText($inputString, "insurance")) {
+            $activeType = "insurance";
         } elseif (containsText($inputString, "internet")) {
             $activeType = "internet";
         }

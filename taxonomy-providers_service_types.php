@@ -18,7 +18,7 @@ get_header();
             <h1 class="sm:text-5xl text-2xl text-white font-bold text-center max-w-[850px] mx-auto capitalize md:leading-10">
                Find Your best provider in <span class="text-[#96B93A]">your area.</span>
             </h1>
-            <p class="text-xl text-center text-white font-[Roboto] my-5">Enter your zip so we can find the best Internet Providers in your area:</p>
+            <p class="text-xl text-center text-white font-[Roboto] my-5">Find internet providers near you — enter your ZIP code to compare available plans:</p>
             <?php get_template_part('template-parts/search', 'form'); ?>
         </div>
     </div>

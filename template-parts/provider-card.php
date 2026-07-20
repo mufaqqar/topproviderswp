@@ -78,9 +78,9 @@ if (isset($servicesInfo["landline_services"]["view_more"])) {
                     <span class="text-gray-400 ml-1 text-lg">/month</span>
                 </div>
             </div>
-            <a target="_blank" href="<?php the_permalink()?>">
+            <a target="_blank" rel="noopener noreferrer" href="<?php the_permalink()?>">
                 <img alt="Feature Image" loading="lazy" width="140" height="50" decoding="async" data-nimg="1"
-                    src="<?php echo $logoUrl ?>" style="color: transparent;" />
+                    src="<?php echo esc_url($logoUrl) ?>" style="color: transparent;" />
             </a>
         </div>
     </div>
@@ -112,7 +112,7 @@ if (isset($servicesInfo["landline_services"]["view_more"])) {
         ?>
         </div>
         <div class="mt-6">
-            <a href="http://refer.astound.com/6JG8jB"
+            <a href="<?php echo esc_url($view_link ?: get_permalink()); ?>"
                 class="w-full block text-center mb-2 py-3 text-white bg-[#FBB13D] rounded-md font-semibold hover:bg-[#6041BB]">
                 Get Deal
             </a>

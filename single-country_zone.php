@@ -3,7 +3,7 @@ global $post;
 
 // 1. Set dynamic title & description
 $location = get_the_title();
-$custom_title = "Best TV & Internet Providers in {$location} [2025] | Compare Plans & Prices";
+$custom_title = "Best TV & Internet Providers in {$location} [" . date('Y') . "] | Compare Plans & Prices";
 $custom_description = "Compare Best Internet providers in {$location}. View bundle prices, download speeds to find your ideal home internet and TV package.";
 
 

@@ -25,18 +25,34 @@
             </div>
         </div>
         <div class="flex justify-center">
-            <div class="space-y-4 flex items-center gap-5 my-4">
+            <div class="flex flex-wrap items-center gap-3 my-4 justify-center">
                 <label class="flex items-center rounded-md transition gap-2 cursor-pointer" id="internet">
-                    <input type="radio" name="provider-types" value="internet" id="internet" class="w-6 h-6 text-blue-500" checked/>
-                    <span class="text-lg font-medium truncate">Internet</span>
+                    <input type="radio" name="provider-types" value="internet" id="internet" class="w-5 h-5 text-blue-500" checked/>
+                    <span class="text-base font-medium truncate">Internet</span>
                 </label>
-                <label id="tv" class="flex items-center rounded-md !mt-0 transition gap-2 cursor-pointer">
-                    <input type="radio" name="provider-types" value="tv" id="tv" class="w-6 h-6 text-blue-500" />
-                    <span class="text-lg font-medium truncate">TV</span>
+                <label id="tv" class="flex items-center rounded-md transition gap-2 cursor-pointer">
+                    <input type="radio" name="provider-types" value="tv" id="tv" class="w-5 h-5 text-blue-500" />
+                    <span class="text-base font-medium truncate">TV</span>
                 </label>
-                <label id="internet-tv" class="flex items-center !mt-0 rounded-md transition gap-2 cursor-pointer">
-                    <input type="radio" name="provider-types" value="internet-tv" id="internet-tv" class="w-6 h-6 text-blue-500" />
-                    <span class="text-lg font-medium truncate">Internet & TV</span>
+                <label id="internet-tv" class="flex items-center rounded-md transition gap-2 cursor-pointer">
+                    <input type="radio" name="provider-types" value="internet-tv" id="internet-tv" class="w-5 h-5 text-blue-500" />
+                    <span class="text-base font-medium truncate">Internet & TV</span>
+                </label>
+                <label id="moving" class="flex items-center rounded-md transition gap-2 cursor-pointer">
+                    <input type="radio" name="provider-types" value="moving" id="moving" class="w-5 h-5 text-blue-500" />
+                    <span class="text-base font-medium truncate">Moving</span>
+                </label>
+                <label id="solar" class="flex items-center rounded-md transition gap-2 cursor-pointer">
+                    <input type="radio" name="provider-types" value="solar" id="solar" class="w-5 h-5 text-blue-500" />
+                    <span class="text-base font-medium truncate">Solar</span>
+                </label>
+                <label id="insurance" class="flex items-center rounded-md transition gap-2 cursor-pointer">
+                    <input type="radio" name="provider-types" value="insurance" id="insurance" class="w-5 h-5 text-blue-500" />
+                    <span class="text-base font-medium truncate">Insurance</span>
+                </label>
+                <label id="health-insurance" class="flex items-center rounded-md transition gap-2 cursor-pointer">
+                    <input type="radio" name="provider-types" value="health-insurance" id="health-insurance" class="w-5 h-5 text-blue-500" />
+                    <span class="text-base font-medium truncate">Health</span>
                 </label>
             </div>
         </div>

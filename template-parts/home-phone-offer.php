@@ -44,7 +44,7 @@
                         </div>
                         <div class="md:w-full w-full grid grid-cols-1 dtable  flex-col">
                             <div class=" border-b grid items-center justify-center p-5">
-                                <a target="_blank" href="<?php the_permalink()?>">
+                                <a target="_blank" rel="noopener noreferrer" href="<?php the_permalink()?>">
                                     <img
                                         alt="Feature Image"
                                         loading="lazy"

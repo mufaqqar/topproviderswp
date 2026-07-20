@@ -1,43 +1,11 @@
-<?php
-/**
- * The template for displaying all pages
- *
- * This is the template that displays all pages by default.
- * Please note that this is the WordPress construct of pages
- * and that other 'pages' on your WordPress site may use a
- * different template.
- *
- * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
- *
- * @package tp_theme
- */
-
-get_header();
+<?php get_header();
+set_query_var('hero_title', get_the_title());
+set_query_var('hero_style', 'solid');
+get_template_part('template-parts/section/hero-banner');
 ?>
-<section class="py-24 bg-[#6041BB]">
-    <div class="container mx-auto px-4">
-        <h1 class="sm:text-5xl text-4xl leading-normal font-extrabold text-white text-center"><?php the_title()?></h1>
+<section class="section-page">
+    <div class="container-section">
+        <?php while (have_posts()) : the_post(); the_content(); endwhile; ?>
     </div>
 </section>
-
-<section class="py-16">
-    <div class="container mx-auto px-4">
-
-		<?php
-		while ( have_posts() ) :
-			the_post();
-
-			the_content();
-
-		endwhile; // End of the loop.
-		?>
-
-</div>
-</section>
-
-<?php
-
-get_footer();
-
-
-
+<?php get_footer(); ?>
