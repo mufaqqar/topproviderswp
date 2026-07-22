@@ -2,17 +2,19 @@
 
 <!doctype html>
 <html <?php language_attributes(); ?>>
+
 <head>
-  	<meta charset="<?php bloginfo( 'charset' ); ?>">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="profile" href="https://gmpg.org/xfn/11">
+    <meta charset="<?php bloginfo('charset'); ?>">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="profile" href="https://gmpg.org/xfn/11">
     <link rel="icon" href="<?php echo get_template_directory_uri(); ?>/images/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="<?php echo get_template_directory_uri(); ?>/images//favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="<?php echo get_template_directory_uri(); ?>/images//favicon.ico"
+        type="image/x-icon">
     <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6552892445438334"  crossorigin="anonymous"></script> -->
-	<?php wp_head(); ?>
+    <?php wp_head(); ?>
 </head>
 <?php wp_body_open(); ?>
-<?php check_header();?>
+<?php check_header(); ?>
 <header class="bg-gray-950">
     <div class="flex justify-end items-center py-2 px-4 lg:px-6 lg:hidden">
         <a href="#" class="mr-2 text-sm font-medium text-gray-500 hover:underline">Talk to
@@ -33,27 +35,40 @@
                 </path>
             </svg>
         </a>
-        
-        <a href="" class="items-center p-2 text-sm font-medium text-gray-500 rounded-lg lg:inline-flex hover:bg-gray-50 focus:ring-4 focus:ring-gray-300">
-            <svg stroke="#9CA3AF" fill="#9CA3AF" stroke-width="0" viewBox="0 0 512 512" class="" height="1em" width="1em" >
-                <path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"></path>
+
+        <a href=""
+            class="items-center p-2 text-sm font-medium text-gray-500 rounded-lg lg:inline-flex hover:bg-gray-50 focus:ring-4 focus:ring-gray-300">
+            <svg stroke="#9CA3AF" fill="#9CA3AF" stroke-width="0" viewBox="0 0 512 512" class="" height="1em"
+                width="1em">
+                <path
+                    d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z">
+                </path>
             </svg>
         </a>
     </div>
     <nav class=" border-gray-200 py-2 md:py-5 ">
         <div class="grid grid-cols-3 items-center mx-auto container px-4">
             <a href="<?php bloginfo('url'); ?>" class="flex items-center">
-                <img src="<?php echo get_template_directory_uri(); ?>/images/logo.webp" class="mr-3 h-6 sm:h-9 invert" alt="top providers Logo" />
+                <img src="<?php echo get_template_directory_uri(); ?>/images/logo.webp" class="mr-3 h-6 sm:h-9 invert"
+                    alt="top providers Logo" />
             </a>
             <div class="flex col-span-2 justify-end items-center lg:order-3 lg:col-span-1">
-                
-                <a href="<?php echo esc_url(home_url('/#search')); ?>" class="hidden items-center p-2 text-sm font-medium text-gray-500 rounded-lg lg:inline-flex hover:bg-gray-50 focus:ring-4 focus:ring-gray-300">
-                    <svg stroke="#9CA3AF" fill="#9CA3AF" stroke-width="0" viewBox="0 0 512 512" class="" height="1em" width="1em" >
-                        <path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"></path>
+
+                <a href="<?php echo esc_url(home_url('/#search')); ?>"
+                    class="hidden items-center p-2 text-sm font-medium text-gray-500 rounded-lg lg:inline-flex hover:bg-gray-50 focus:ring-4 focus:ring-gray-300">
+                    <svg stroke="#9CA3AF" fill="#9CA3AF" stroke-width="0" viewBox="0 0 512 512" class="" height="1em"
+                        width="1em">
+                        <path
+                            d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z">
+                        </path>
                     </svg>
                 </a>
-                    <a href="<?php echo esc_url(home_url('/internet-by-country')); ?>" class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 lg:py-2.5 md:mr-2">Internet By Country</a>
-                <a href="<?php echo esc_url(home_url('/contact-us')); ?>" class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 lg:py-2.5 md:mr-2">Contact us</a>
+                <a href="<?php echo esc_url(home_url('/internet-by-country')); ?>"
+                    class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 lg:py-2.5 md:mr-2">Internet
+                    By Country</a>
+                <a href="<?php echo esc_url(home_url('/contact-us')); ?>"
+                    class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 lg:py-2.5 md:mr-2">Contact
+                    us</a>
                 <button data-collapse-toggle="mobile-menu-2" type="button"
                     class="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 "
                     aria-controls="mobile-menu-2" aria-expanded="false">
@@ -71,13 +86,14 @@
                     </svg>
                 </button>
             </div>
-            <div class="hidden col-span-3 justify-between items-center w-full lg:flex lg:w-auto lg:order-1 lg:col-span-1" id="mobile-menu-2">
-                <?php wp_nav_menu( array( 
-                    'theme_location' => 'main', 
-                    'container'      => '',
-                    'container_class'=> 'flex flex-col space-y-4',
-                    'menu_class'     => 'flex flex-col mt-4 font-medium lg:flex-row text-sm text-white lg:space-x-8 lg:mt-0 relative pb-3 md:pb-0',
-                    'walker'         => new Tailwind_Nav_Walker(),
+            <div class="hidden col-span-3 justify-between items-center w-full lg:flex lg:w-auto lg:order-1 lg:col-span-1"
+                id="mobile-menu-2">
+                <?php wp_nav_menu(array(
+                    'theme_location' => 'main',
+                    'container' => '',
+                    'container_class' => 'flex flex-col space-y-4',
+                    'menu_class' => 'flex flex-col mt-4 font-medium lg:flex-row text-sm text-white lg:space-x-8 lg:mt-0 relative pb-3 md:pb-0',
+                    'walker' => new Tailwind_Nav_Walker(),
                 )); ?>
             </div>
         </div>
@@ -87,16 +103,17 @@
 
 
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const toggles = document.querySelectorAll('.submenu-toggle');
+    document.addEventListener("DOMContentLoaded", function () {
+        const submenus = document.querySelectorAll(".submenu");
 
-        toggles.forEach(toggle => {
-            toggle.addEventListener('click', (e) => {
-                const submenu = e.target.nextElementSibling;
-                if (submenu && submenu.classList.contains('submenu')) {
-                    submenu.classList.toggle('hidden');
-                }
-            });
+        submenus.forEach(function (submenu) {
+            const items = submenu.querySelectorAll("li");
+
+            if (items.length > 3) {
+                submenu.style.gridTemplateColumns = "1fr 1fr 1fr";
+            } else {
+                submenu.style.gridTemplateColumns = "1fr";
+            }
         });
     });
 </script>

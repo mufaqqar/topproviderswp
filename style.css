@@ -161,11 +161,10 @@ html {
 }
 
 @media (min-width: 1024px) {
-  .submenu {
-    display: grid !important;
-    grid-template-columns: 1fr 1fr 1fr !important;
-    z-index: 11111 !important;
-  }
+    .submenu {
+        display: grid !important;
+        z-index: 11111 !important;
+    }
 }
 
 /* For larger screens, always display the menu */
