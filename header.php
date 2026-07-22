@@ -42,7 +42,7 @@
     </div>
     <nav class=" border-gray-200 py-2 md:py-5 ">
         <div class="grid grid-cols-3 items-center mx-auto container px-4">
-            <a href="<?php bloginfo('url'); ?>" class="flex items-center lg:justify-center lg:order-2">
+            <a href="<?php bloginfo('url'); ?>" class="flex items-center">
                 <img src="<?php echo get_template_directory_uri(); ?>/images/logo.webp" class="mr-3 h-6 sm:h-9 invert" alt="top providers Logo" />
             </a>
             <div class="flex col-span-2 justify-end items-center lg:order-3 lg:col-span-1">

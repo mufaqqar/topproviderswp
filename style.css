@@ -768,7 +768,7 @@ footer {
   mask-repeat: no-repeat;
   -webkit-mask-repeat: no-repeat;
   transform-origin: center;
-  display: inline-block;
+  display: none;
 }
 
 .current-menu-item {
@@ -785,7 +785,7 @@ footer {
   -webkit-mask-image: url("data:image/svg+xml,%0A%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 20.1 10.5' style='enable-background:new 0 0 20.1 10.5;' xml:space='preserve'%3E%3Cg%3E%3Cg%3E%3Cpath d='M20.1,6.3l-0.7-0.7c-5.2,5.2-13.6,5.2-18.7,0c0,0,0,0,0,0L0,6.3C5.6,11.9,14.5,11.9,20.1,6.3z'/%3E%3Cpath d='M13.8,0c-2,2-5.4,2.1-7.4,0c0,0,0,0,0,0l0,0L5.7,0.7c2.4,2.4,6.3,2.4,8.8,0c0,0,0,0,0,0L13.8,0z'/%3E%3Cpath d='M17.3,3.5l-0.7-0.7C13,6.4,7.1,6.4,3.5,2.8l0,0L2.8,3.5C6.8,7.5,13.3,7.5,17.3,3.5C17.3,3.5,17.3,3.5,17.3,3.5L17.3,3.5z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E%0A");
   left: 50%;
   transform-origin: center;
-  display: inline-block;
+  display: none;
   mask-repeat: no-repeat;
   -webkit-mask-repeat: no-repeat;
   transition: all 0.3s linear 0s;
