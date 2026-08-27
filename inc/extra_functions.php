@@ -628,6 +628,101 @@ function yoast_process_shortcodes($string) {
 add_filter('wpseo_title', 'yoast_process_shortcodes'); // For titles
 add_filter('wpseo_metadesc', 'yoast_process_shortcodes'); // For meta descriptions
 
+/**
+ * Generate dynamic meta descriptions for all pages
+ */
+function tp_theme_dynamic_meta_description() {
+    if (is_front_page()) {
+        $description = "Compare the best internet, TV, and home service providers. Find affordable plans, compare prices, and read reviews. Top Providers helps you find the perfect service for your home.";
+    } elseif (is_single() && get_post_type() === 'providers') {
+        $price = get_field('pro_price');
+        $title = get_the_title();
+        $service_types = get_the_terms(get_the_ID(), 'providers_service_types');
+        $service_list = '';
+        if ($service_types && !is_wp_error($service_types)) {
+            $service_names = wp_list_pluck($service_types, 'name');
+            $service_list = implode(', ', $service_names);
+        }
+        
+        $description = "Compare " . $title . " plans starting at $" . ($price ? $price : 'XX') . "/mo. ";
+        if ($service_list) {
+            $description .= "Services include " . $service_list . ". ";
+        }
+        $description .= "Read reviews, check coverage, and find the best deal for your home. Updated " . date('F Y') . ".";
+    } elseif (is_tax('providers_service_types')) {
+        $term = get_queried_object();
+        $description = "Compare the best " . $term->name . " providers. Find affordable plans, compare speeds and prices, and read customer reviews. Find the perfect " . strtolower($term->name) . " provider for your home.";
+    } elseif (is_tax('providers_types')) {
+        $term = get_queried_object();
+        $description = "Find top-rated " . $term->name . " providers. Compare plans, prices, and speeds. Read reviews and find the best deal for your home internet needs.";
+    } elseif (is_page()) {
+        $title = get_the_title();
+        $description = "Top Providers - " . $title . ". Compare internet, TV, and home service providers to find the best deals and plans for your home.";
+    } else {
+        $description = "Top Providers: Your go-to source for comparing internet, TV, and home bundles. Find deals, compare plans, and connect with top providers effortlessly.";
+    }
+    
+    echo '<meta name="description" content="' . esc_attr(wp_strip_all_tags($description)) . '" />' . "\n";
+}
+add_action('wp_head', 'tp_theme_dynamic_meta_description', 10);
+
+/**
+ * Add Open Graph Meta Tags for Social Sharing
+ */
+function tp_theme_open_graph_meta() {
+    $title = get_the_title();
+    $url = get_permalink();
+    $description = '';
+    
+    if (is_front_page()) {
+        $description = "Compare the best internet, TV, and home service providers. Find affordable plans, compare prices, and read reviews.";
+    } elseif (is_single() && get_post_type() === 'providers') {
+        $price = get_field('pro_price');
+        $description = "Compare " . $title . " plans starting at $" . ($price ? $price : 'XX') . "/mo. Read reviews, check coverage, and find the best deal.";
+    } else {
+        $description = get_bloginfo('description');
+    }
+    
+    $image = '';
+    if (is_single() && has_post_thumbnail()) {
+        $image = get_the_post_thumbnail_url(get_the_ID(), 'full');
+    } else {
+        $image = get_template_directory_uri() . '/images/logo.webp';
+    }
+    
+    echo '<meta property="og:title" content="' . esc_attr($title) . '" />' . "\n";
+    echo '<meta property="og:description" content="' . esc_attr(wp_strip_all_tags($description)) . '" />' . "\n";
+    echo '<meta property="og:url" content="' . esc_url($url) . '" />' . "\n";
+    echo '<meta property="og:type" content="website" />' . "\n";
+    echo '<meta property="og:site_name" content="Top Providers" />' . "\n";
+    if ($image) {
+        echo '<meta property="og:image" content="' . esc_url($image) . '" />' . "\n";
+    }
+    
+    // Twitter Card
+    echo '<meta name="twitter:card" content="summary_large_image" />' . "\n";
+    echo '<meta name="twitter:title" content="' . esc_attr($title) . '" />' . "\n";
+    echo '<meta name="twitter:description" content="' . esc_attr(wp_strip_all_tags($description)) . '" />' . "\n";
+    if ($image) {
+        echo '<meta name="twitter:image" content="' . esc_url($image) . '" />' . "\n";
+    }
+}
+add_action('wp_head', 'tp_theme_open_graph_meta', 11);
+
+/**
+ * Add canonical URLs for better SEO
+ */
+function tp_theme_canonical_url() {
+    if (is_single()) {
+        echo '<link rel="canonical" href="' . esc_url(get_permalink()) . '" />' . "\n";
+    } elseif (is_page()) {
+        echo '<link rel="canonical" href="' . esc_url(get_permalink()) . '" />' . "\n";
+    } elseif (is_front_page()) {
+        echo '<link rel="canonical" href="' . esc_url(home_url('/')) . '" />' . "\n";
+    }
+}
+add_action('wp_head', 'tp_theme_canonical_url', 12);
+
 
 // Shortcode to output the current month and year
 function current_month_year_shortcode() {

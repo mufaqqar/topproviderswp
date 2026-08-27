@@ -19,6 +19,7 @@
 add_action('wp_enqueue_scripts', 'enqueue_font_awesome');
 include_once('inc/extra_functions.php');
 include_once('inc/sitemap_functions.php');
+include_once('inc/schema-markup.php');
 
 function enqueue_slick_slider_assets() {
     // Slick CSS
