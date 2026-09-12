@@ -16,7 +16,6 @@ add_action('init', function () {
 
         if (file_exists($file_path) && filesize($file_path) > 0) {
             header('Content-Type: application/xml; charset=UTF-8');
-            header('X-Robots-Tag: noindex, follow');
             readfile($file_path);
             exit;
         }

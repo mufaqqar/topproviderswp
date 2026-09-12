@@ -18,6 +18,37 @@ $faq_title = get_query_var('faq_title', 'FAQs');
 $faq_items = get_query_var('faq_items', array());
 
 if (empty($faq_items)) return;
+
+// Normalize FAQ items: strip leading "1.", "2." numbering for cleaner output.
+$normalized = array();
+foreach ($faq_items as $faq_item) {
+    $question = trim(preg_replace('/^\d+[\.\)]\s*/', '', $faq_item['question']));
+    $answer   = trim($faq_item['answer']);
+    $normalized[] = array(
+        'question' => $question,
+        'answer'   => $answer
+    );
+}
+
+// Emit FAQPage JSON-LD so answer engines can cite these Q&As.
+if (!empty($normalized)) {
+    $faq_schema = array(
+        "@context"   => "https://schema.org",
+        "@type"      => "FAQPage",
+        "mainEntity" => array()
+    );
+    foreach ($normalized as $item) {
+        $faq_schema['mainEntity'][] = array(
+            "@type"          => "Question",
+            "name"           => wp_strip_all_tags($item['question']),
+            "acceptedAnswer" => array(
+                "@type" => "Answer",
+                "text"  => wp_strip_all_tags($item['answer'])
+            )
+        );
+    }
+    echo '<script type="application/ld+json">' . wp_json_encode($faq_schema, JSON_UNESCAPED_SLASHES) . '</script>' . "\n";
+}
 ?>
 
 <section class="my-16">
@@ -26,7 +57,7 @@ if (empty($faq_items)) return;
             <h2 class="text-2xl font-bold"><?php echo esc_html($faq_title); ?></h2>
         </div>
         <div class="grid gap-10">
-            <?php foreach ($faq_items as $faq) : ?>
+            <?php foreach ($normalized as $faq) : ?>
             <div class="faq-item">
                 <div class="faq-question">
                     <p class="text-lg font-semibold"><?php echo esc_html($faq['question']); ?></p>

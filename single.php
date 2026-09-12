@@ -38,7 +38,11 @@ $query = new WP_Query($args);
             <div class="flex justify-between flex-col md:flex-row gap-5 md:gap-0 py-6 border-t border-gray-500 not-format">
                 <div class="mb-4">
                     <span class="text-base font-normal text-gray-500 dark:text-gray-400">
-                        By Top Providers  <span class="font-semibold ">Published <time datetime="<?php echo esc_attr(get_the_date('c')); ?>" class="font-normal text-gray-500 dark:text-gray-400"><?php echo esc_html(get_the_date('F j, Y')); ?></time></span>
+                        By <strong><?php the_author(); ?></strong> —
+                        <time datetime="<?php echo esc_attr(get_the_date('c')); ?>" class="font-normal text-gray-500">Published <?php echo esc_html(get_the_date('F j, Y')); ?></time>
+                    </span>
+                    <p class="text-sm text-gray-400 mt-1">
+                        <?php echo tp_theme_last_updated_text(); ?>
                     </p>
                 </div>
                 

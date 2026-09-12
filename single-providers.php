@@ -9,6 +9,7 @@
 
     get_header();
 
+    $title = get_the_title();
     $pro_link = get_field( "pro_link" );
     $logoArray = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'single-post-thumbnail' );
     $logoUrl = esc_url( $logoArray[0]);
@@ -42,7 +43,26 @@
     </div>
     <img src="<?php echo get_template_directory_uri(); ?>/images/business.webp" alt="" class="absolute right-0 z-10 bottom-0 w-72"/>
     <img src="<?php echo get_template_directory_uri(); ?>/images/wave1.png" alt="" class="absolute opacity-40 -left-60 -bottom-20 w-[800px]"/>
+    <p class="text-sm text-gray-400 absolute bottom-24 left-4 z-10 mx-auto"><?php echo tp_theme_last_updated_text(); ?></p>
 </section>
+
+<?php
+$kt_items = array();
+if (!empty($price)) {
+    $kt_items[] = $title . ' offers plans starting at $' . $price . '/mo.';
+}
+if ($features) {
+    $feature_list = array_map('trim', array_filter(explode("\n", wp_strip_all_tags($features))));
+    if ($feature_list) {
+        $kt_items[] = 'Key plan features include: ' . implode(', ', array_slice($feature_list, 0, 5)) . '.';
+    }
+}
+if (!empty($kt_items)) {
+    set_query_var('key_takeaways_title', $title . ' at a Glance');
+    set_query_var('key_takeaways', $kt_items);
+    get_template_part('template-parts/key-takeaways');
+}
+?>
 
 <section class="bgmain px-4 py-5 shadow-sm border-y border-zinc-400/20 z-50">
     <div class="container mx-auto flex justify-between gap-10 items-center md:text-4xl text-xl font-bold uppercase text-white">
