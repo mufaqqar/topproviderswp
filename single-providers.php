@@ -42,7 +42,7 @@
         </div>
     </div>
     <img src="<?php echo get_template_directory_uri(); ?>/images/business.webp" alt="" class="absolute right-0 z-10 bottom-0 w-72"/>
-    <img src="<?php echo get_template_directory_uri(); ?>/images/wave1.png" alt="" class="absolute opacity-40 -left-60 -bottom-20 w-[800px]"/>
+    <img src="<?php echo get_template_directory_uri(); ?>/images/wave1.webp" alt="" class="absolute opacity-40 -left-60 -bottom-20 w-[800px]"/>
     <p class="text-sm text-gray-400 absolute bottom-24 left-4 z-10 mx-auto"><?php echo tp_theme_last_updated_text(); ?></p>
 </section>
 

@@ -3,7 +3,7 @@
 get_header();
 set_query_var('hero_title', 'Contact Us');
 set_query_var('hero_style', 'image');
-set_query_var('hero_image', 'family.png');
+set_query_var('hero_image', 'family.webp');
 get_template_part('template-parts/section/hero-banner');
 ?>
 

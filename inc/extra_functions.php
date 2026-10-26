@@ -633,7 +633,7 @@ add_filter('wpseo_metadesc', 'yoast_process_shortcodes'); // For meta descriptio
  */
 function tp_theme_dynamic_meta_description() {
     if (is_front_page()) {
-        $description = "Compare the best internet, TV, and home service providers. Find affordable plans, compare prices, and read reviews. Top Providers helps you find the perfect service for your home.";
+        $description = "Compare internet, TV, and bundle providers in your ZIP code. See speeds, prices, and deals from top providers, then choose the best plan for your home.";
     } elseif (is_single() && get_post_type() === 'providers') {
         $price = get_field('pro_price');
         $title = get_the_title();
@@ -644,7 +644,9 @@ function tp_theme_dynamic_meta_description() {
             $service_list = implode(', ', $service_names);
         }
         
-        $description = "Compare " . $title . " plans starting at $" . ($price ? $price : 'XX') . "/mo. ";
+        $description = $price
+            ? "Compare " . $title . " plans starting at $" . $price . "/mo. "
+            : "Compare " . $title . " plans, pricing, and availability. ";
         if ($service_list) {
             $description .= "Services include " . $service_list . ". ";
         }
@@ -664,7 +666,9 @@ function tp_theme_dynamic_meta_description() {
     
     echo '<meta name="description" content="' . esc_attr(wp_strip_all_tags($description)) . '" />' . "\n";
 }
-add_action('wp_head', 'tp_theme_dynamic_meta_description', 10);
+if (!defined('WPSEO_VERSION')) {
+    add_action('wp_head', 'tp_theme_dynamic_meta_description', 10);
+}
 
 /**
  * Add Open Graph Meta Tags for Social Sharing
@@ -687,7 +691,7 @@ function tp_theme_open_graph_meta() {
     if (is_single() && has_post_thumbnail()) {
         $image = get_the_post_thumbnail_url(get_the_ID(), 'full');
     } else {
-        $image = get_template_directory_uri() . '/images/logo.webp';
+        $image = get_template_directory_uri() . '/images/og-home.jpg';
     }
     
     echo '<meta property="og:title" content="' . esc_attr($title) . '" />' . "\n";
@@ -707,7 +711,7 @@ function tp_theme_open_graph_meta() {
         echo '<meta name="twitter:image" content="' . esc_url($image) . '" />' . "\n";
     }
 }
-add_action('wp_head', 'tp_theme_open_graph_meta', 11);
+
 
 /**
  * Add canonical URLs for better SEO
@@ -721,7 +725,9 @@ function tp_theme_canonical_url() {
         echo '<link rel="canonical" href="' . esc_url(home_url('/')) . '" />' . "\n";
     }
 }
-add_action('wp_head', 'tp_theme_canonical_url', 12);
+if (!defined('WPSEO_VERSION')) {
+    add_action('wp_head', 'tp_theme_canonical_url', 12);
+}
 
 
 // Shortcode to output the current month and year

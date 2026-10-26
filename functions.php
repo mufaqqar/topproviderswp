@@ -36,7 +36,39 @@ function enqueue_slick_slider_assets() {
     // Custom Slick initialization
     wp_enqueue_script('slick-init', get_template_directory_uri() . '/js/slick-init.js', ['slick-js'], null, true);
 }
-add_action('wp_enqueue_scripts', 'enqueue_slick_slider_assets');
+function tp_theme_social_image($image) {
+    if (is_front_page()) {
+        return get_template_directory_uri() . '/images/og-home.jpg';
+    }
+    return $image;
+}
+add_filter('wpseo_opengraph_image', 'tp_theme_social_image');
+add_filter('wpseo_twitter_image', 'tp_theme_social_image');
+
+function tp_theme_front_page_head() {
+    if (!is_front_page()) {
+        return;
+    }
+    if (defined('WPSEO_VERSION')) {
+        echo '<meta property="og:image:width" content="1200" />' . "\n";
+        echo '<meta property="og:image:height" content="630" />' . "\n";
+        echo '<meta property="og:image:alt" content="Compare internet and TV providers by ZIP code" />' . "\n";
+    }
+    echo '<link rel="preload" as="image" href="' . esc_url(get_template_directory_uri() . '/images/main.webp') . '" fetchpriority="high" />' . "\n";
+}
+add_action('wp_head', 'tp_theme_front_page_head', 20);
+
+function tp_theme_front_page_assets() {
+    if (!is_front_page()) {
+        return;
+    }
+    wp_dequeue_style('wp-block-library');
+    wp_dequeue_style('wp-block-library-theme');
+    wp_dequeue_style('classic-theme-styles');
+    wp_dequeue_style('global-styles');
+    wp_dequeue_style('wp-emoji-styles');
+}
+add_action('wp_enqueue_scripts', 'tp_theme_front_page_assets', 100);
 
 
 	// API 

@@ -11,7 +11,9 @@
 /**
  * Emit date meta tags in the document head.
  */
-add_action('wp_head', 'tp_theme_date_meta_tags', 2);
+if (!defined('WPSEO_VERSION')) {
+    add_action('wp_head', 'tp_theme_date_meta_tags', 2);
+}
 
 function tp_theme_date_meta_tags() {
     if (!is_singular()) {

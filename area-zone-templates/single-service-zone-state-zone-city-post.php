@@ -1,4 +1,4 @@
-﻿<?php 
+<?php 
 
 
 global $wp_query;
@@ -102,7 +102,7 @@ $query_fast = new WP_Query($query_args_fast);
                 <?php echo esc_html(FormatData($type)) ?> Providers in <br />
                 ZIP Code <span class="text-[#6041BB]"><?php echo esc_html($zipcode) ?></span>
             </h1>
-            <p class="text-xl text-center font-[Roboto] my-5">Search for <?php echo esc_html(FormatData($type)) ?> providers in your area — just enter your ZIP code to compare plans and pricing:
+            <p class="text-xl text-center font-[Roboto] my-5">Search for <?php echo esc_html(FormatData($type)) ?> providers in your area &mdash; just enter your ZIP code to compare plans and pricing:
             </p>
             <div class="!max-w-[712px] w-full bg-white z-30 rounded-2xl mx-auto">
                 <?php get_template_part('template-parts/search', 'form'); ?>
@@ -111,7 +111,7 @@ $query_fast = new WP_Query($query_args_fast);
     </div>
     <img src="<?php echo get_template_directory_uri(); ?>/images/business.webp" alt=""
         class="absolute right-0 z-10 bottom-0 w-72" />
-    <img src="<?php echo get_template_directory_uri(); ?>/images/wave1.png" alt=""
+    <img src="<?php echo get_template_directory_uri(); ?>/images/wave1.webp" alt=""
         class="absolute opacity-40 -left-60 -bottom-0 w-[800px]" />
 </section>
 

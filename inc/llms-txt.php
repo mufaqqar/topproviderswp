@@ -82,8 +82,8 @@ function tp_theme_generate_llms_txt() {
     $lines[] = '## Contact';
     $lines[] = '';
     $lines[] = '- Email: contact@topproviders.net';
-    $lines[] = '- Phone: +1 (800) 555-0144';
-    $lines[] = '- Address: United States';
+    $lines[] = '- Contact: ' . esc_url(home_url('/contact-us/'));
+    $lines[] = '- Service area: United States';
 
     $lines[] = '';
     $lines[] = '### llms-full.txt';

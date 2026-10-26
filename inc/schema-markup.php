@@ -20,102 +20,316 @@ function tp_theme_echo_jsonld($data) {
 }
 
 /**
- * Add Organization Schema to the head (enhanced for GEO entity signals).
+ * Add the homepage entity graph.
  */
-function tp_theme_organization_schema() {
+function tp_theme_homepage_schema() {
     if (!is_front_page()) {
         return;
     }
 
-    $schema = array(
-        "@context"        => "https://schema.org",
-        "@type"           => "Organization",
-        "@id"             => esc_url(home_url('/')) . "#organization",
-        "name"            => "Top Providers",
-        "alternateName"   => "TopProviders",
-        "url"             => esc_url(home_url('/')),
-        "logo"            => esc_url(get_template_directory_uri() . '/images/logo.webp'),
-        "image"           => esc_url(get_template_directory_uri() . '/images/logo.webp'),
-        "description"     => "Compare and connect with the best TV, Internet, Landline, Home Security, Moving, Solar, Insurance, and Health Insurance providers in your area. Find deals, compare plans, and choose the perfect provider for your home.",
-        "email"           => "contact@topproviders.net",
-        "knowsAbout"      => array(
-            "Internet service providers",
-            "TV service providers",
-            "Internet and TV bundles",
-            "Home phone and landline service",
-            "Home security systems",
-            "Moving companies",
-            "Solar panel installers",
-            "Insurance providers",
-            "Health insurance plans"
-        ),
-        "knowsLanguage"   => "en-US",
-        "areaServed"      => array(
-            "@type" => "Country",
-            "name"  => "United States"
-        ),
-        "contactPoint"    => array(
-            "@type"          => "ContactPoint",
-            "contactType"    => "customer service",
-            "contactOption"  => "TollFree",
-            "telephone"      => "+1-800-555-0144",
-            "availableLanguage" => "English",
-            "areaServed"     => "US"
-        ),
-        "address"         => array(
-            "@type"          => "PostalAddress",
-            "addressCountry" => "US"
-        ),
-        "sameAs"          => array(
-            "https://x.com/topproviders",
-            "https://www.instagram.com/top.providers/",
-            "https://www.facebook.com/topproviders",
-            "https://www.youtube.com/@top-providers"
-        ),
-        "potentialAction" => array(
-            "@type" => "SearchAction",
-            "target" => array(
-                "@type"       => "EntryPoint",
-                "urlTemplate" => esc_url(home_url('/?s={search_term_string}'))
+    $home       = esc_url(home_url('/'));
+    $org_id     = $home . '#organization';
+    $website_id = $home . '#website';
+    $page_id    = $home . '#webpage';
+    $logo       = esc_url(get_template_directory_uri() . '/images/logo-512.png');
+    $og_image   = esc_url(get_template_directory_uri() . '/images/og-home.jpg');
+    $modified   = get_the_modified_date('c');
+    $published  = get_the_date('c');
+
+    if (!$modified) {
+        $modified = gmdate('c');
+    }
+
+    $providers = get_posts(array(
+        'post_type'      => 'providers',
+        'posts_per_page' => 6,
+        'post_status'    => 'publish',
+        'orderby'        => 'date',
+        'order'          => 'DESC',
+    ));
+
+    $provider_items = array();
+    $position       = 1;
+
+    foreach ($providers as $provider) {
+        $provider_items[] = array(
+            '@type'    => 'ListItem',
+            'position' => $position,
+            'item'     => array(
+                '@type' => 'Service',
+                'name'  => $provider->post_title,
+                'url'   => get_permalink($provider->ID),
             ),
-            "query-input" => "required name=search_term_string"
-        )
+        );
+        $position++;
+    }
+
+    $organization = array(
+        '@type'               => 'Organization',
+        '@id'                 => $org_id,
+        'name'                => 'Top Providers',
+        'alternateName'       => 'TopProviders',
+        'url'                 => $home,
+        'logo'                => array(
+            '@type'  => 'ImageObject',
+            'url'    => $logo,
+            'width'  => 512,
+            'height' => 512,
+        ),
+        'image'               => $og_image,
+        'description'         => 'Top Providers helps people compare internet, TV, bundle, and home service providers by ZIP code.',
+        'email'               => 'contact@topproviders.net',
+        'knowsAbout'          => array(
+            'Internet service providers',
+            'TV service providers',
+            'Internet and TV bundles',
+            'Home phone and landline service',
+            'Home security systems',
+            'Moving companies',
+            'Solar panel installers',
+            'Insurance providers',
+            'Health insurance plans',
+        ),
+        'knowsLanguage'       => 'en-US',
+        'areaServed'          => array(
+            '@type' => 'Country',
+            'name'  => 'United States',
+        ),
+        'contactPoint'        => array(
+            '@type'             => 'ContactPoint',
+            'contactType'       => 'customer support',
+            'email'             => 'contact@topproviders.net',
+            'url'               => esc_url(home_url('/contact-us/')),
+            'availableLanguage' => 'English',
+            'areaServed'        => 'US',
+        ),
+        'publishingPrinciples' => esc_url(home_url('/about-us/')),
+        'correctionsPolicy'    => esc_url(home_url('/about-us/#methodology')),
+        'sameAs'              => array(
+            'https://x.com/topproviders',
+            'https://www.instagram.com/top.providers/',
+            'https://www.facebook.com/topproviders',
+            'https://www.youtube.com/@top-providers',
+        ),
     );
 
-    tp_theme_echo_jsonld($schema);
+    $website = array(
+        '@type'       => 'WebSite',
+        '@id'         => $website_id,
+        'name'        => 'Top Providers',
+        'url'         => $home,
+        'publisher'   => array('@id' => $org_id),
+        'inLanguage'  => 'en-US',
+        'potentialAction' => array(
+            '@type'         => 'SearchAction',
+            'target'        => array(
+                '@type'       => 'EntryPoint',
+                'urlTemplate' => esc_url(home_url('/?s={search_term_string}')),
+            ),
+            'query-input'   => 'required name=search_term_string',
+        ),
+    );
+
+    $webpage = array(
+        '@type'            => 'WebPage',
+        '@id'              => $page_id,
+        'url'              => $home,
+        'name'             => 'Compare Internet & TV Providers by ZIP Code | Top Providers',
+        'description'      => 'Compare internet, TV, and bundle providers in your ZIP code. See speeds, prices, and deals from top providers, then choose the best plan for your home.',
+        'abstract'         => 'Enter your ZIP code to compare internet, TV, and bundle providers, check availability, and review speeds, prices, and contract terms.',
+        'isPartOf'         => array('@id' => $website_id),
+        'about'            => array('@id' => $org_id),
+        'primaryImageOfPage' => array(
+            '@type'  => 'ImageObject',
+            'url'    => $og_image,
+            'width'  => 1200,
+            'height' => 630,
+        ),
+        'datePublished'    => $published,
+        'dateModified'     => $modified,
+        'inLanguage'       => 'en-US',
+        'breadcrumb'       => array('@id' => $home . '#breadcrumb'),
+        'potentialAction'  => array(
+            '@type'  => 'ReadAction',
+            'target' => $home,
+        ),
+    );
+
+    $service = array(
+        '@type'            => 'Service',
+        '@id'              => $home . '#service',
+        'name'             => 'Internet and TV Provider Comparison',
+        'serviceType'      => 'Internet and television provider comparison',
+        'description'      => 'Compare internet, TV, and bundle plans by ZIP code, including speeds, prices, availability, and contract terms.',
+        'provider'         => array('@id' => $org_id),
+        'areaServed'       => array(
+            '@type' => 'Country',
+            'name'  => 'United States',
+        ),
+        'mainEntityOfPage' => array('@id' => $page_id),
+        'hasOfferCatalog'  => array(
+            '@type'           => 'OfferCatalog',
+            'name'            => 'Internet, TV, and bundle plans',
+            'itemListElement' => array(
+                array(
+                    '@type'       => 'Offer',
+                    'itemOffered' => array(
+                        '@type'       => 'Service',
+                        'name'        => 'Internet service',
+                        'serviceType' => 'Internet',
+                    ),
+                ),
+                array(
+                    '@type'       => 'Offer',
+                    'itemOffered' => array(
+                        '@type'       => 'Service',
+                        'name'        => 'TV service',
+                        'serviceType' => 'Television',
+                    ),
+                ),
+                array(
+                    '@type'       => 'Offer',
+                    'itemOffered' => array(
+                        '@type'       => 'Service',
+                        'name'        => 'Internet and TV bundle',
+                        'serviceType' => 'Internet and television bundle',
+                    ),
+                ),
+            ),
+        ),
+    );
+
+    $item_list = array(
+        '@type'           => 'ItemList',
+        '@id'             => $home . '#providers',
+        'name'            => 'Popular internet and TV providers',
+        'numberOfItems'   => count($provider_items),
+        'itemListElement' => $provider_items,
+    );
+
+    $faq = array(
+        '@type'      => 'FAQPage',
+        '@id'        => $home . '#faq',
+        'mainEntity' => array(
+            array(
+                '@type'          => 'Question',
+                'name'           => 'How do I find internet providers in my area?',
+                'acceptedAnswer' => array(
+                    '@type' => 'Answer',
+                    'text'  => 'Enter your ZIP code in the availability checker on this page. You will see internet providers that serve your address, along with available speeds, starting prices, and plan details.',
+                ),
+            ),
+            array(
+                '@type'          => 'Question',
+                'name'           => 'What is the difference between internet and TV bundles?',
+                'acceptedAnswer' => array(
+                    '@type' => 'Answer',
+                    'text'  => 'An internet and TV bundle combines two services on one bill, usually at a lower combined price than buying them separately. Bundles may also include a DVR, streaming app access, or a home phone line.',
+                ),
+            ),
+            array(
+                '@type'          => 'Question',
+                'name'           => 'How much does internet service cost per month?',
+                'acceptedAnswer' => array(
+                    '@type' => 'Answer',
+                    'text'  => 'Internet prices vary by provider, speed, and location. Entry-level plans often start around $30 to $50 per month, while faster or unlimited plans can cost more. Promotional prices may increase after the introductory period.',
+                ),
+            ),
+            array(
+                '@type'          => 'Question',
+                'name'           => 'Do I need a contract for internet or TV service?',
+                'acceptedAnswer' => array(
+                    '@type' => 'Answer',
+                    'text'  => 'Some providers require a one- or two-year contract, while others offer month-to-month service. Check the contract term, early termination fee, equipment fee, and price-after-promotion details before you sign up.',
+                ),
+            ),
+            array(
+                '@type'          => 'Question',
+                'name'           => 'How does Top Providers make money?',
+                'acceptedAnswer' => array(
+                    '@type' => 'Answer',
+                    'text'  => 'Top Providers may earn a commission when you sign up for a service through our links. This does not change the price you pay. Our rankings are based on availability, speed, price, contract terms, and customer feedback.',
+                ),
+            ),
+        ),
+    );
+
+    $breadcrumb = array(
+        '@type'           => 'BreadcrumbList',
+        '@id'             => $home . '#breadcrumb',
+        'itemListElement' => array(
+            array(
+                '@type'    => 'ListItem',
+                'position' => 1,
+                'name'     => 'Home',
+                'item'     => $home,
+            ),
+        ),
+    );
+
+    tp_theme_echo_jsonld(array(
+        '@context' => 'https://schema.org',
+        '@graph'   => array(
+            $organization,
+            $website,
+            $webpage,
+            $service,
+            $item_list,
+            $faq,
+            $breadcrumb,
+        ),
+    ));
 }
-add_action('wp_head', 'tp_theme_organization_schema', 1);
+add_action('wp_head', 'tp_theme_homepage_schema', 1);
 
 /**
- * Add WebSite Schema with SearchAction.
+ * Add the Organization and WebSite entities to every non-home page.
  */
-function tp_theme_website_schema() {
-    if (!is_front_page()) {
+function tp_theme_site_entity_schema() {
+    if (is_front_page()) {
         return;
     }
 
-    $schema = array(
-        "@context"        => "https://schema.org",
-        "@type"           => "WebSite",
-        "@id"             => esc_url(home_url('/')) . "#website",
-        "name"            => "Top Providers",
-        "url"             => esc_url(home_url('/')),
-        "publisher"       => array(
-            "@id" => esc_url(home_url('/')) . "#organization"
-        ),
-        "potentialAction" => array(
-            "@type"         => "SearchAction",
-            "target"        => array(
-                "@type"       => "EntryPoint",
-                "urlTemplate" => esc_url(home_url('/?s={search_term_string}'))
-            ),
-            "query-input"   => "required name=search_term_string"
-        )
-    );
+    $home   = esc_url(home_url('/'));
+    $org_id = $home . '#organization';
 
-    tp_theme_echo_jsonld($schema);
+    tp_theme_echo_jsonld(array(
+        '@context' => 'https://schema.org',
+        '@graph'   => array(
+            array(
+                '@type'   => 'Organization',
+                '@id'     => $org_id,
+                'name'    => 'Top Providers',
+                'url'     => $home,
+                'logo'    => array(
+                    '@type'  => 'ImageObject',
+                    'url'    => esc_url(get_template_directory_uri() . '/images/logo-512.png'),
+                    'width'  => 512,
+                    'height' => 512,
+                ),
+                'description' => 'Top Providers helps people compare internet, TV, bundle, and home service providers by ZIP code.',
+                'email'       => 'contact@topproviders.net',
+                'sameAs'      => array(
+                    'https://x.com/topproviders',
+                    'https://www.instagram.com/top.providers/',
+                    'https://www.facebook.com/topproviders',
+                    'https://www.youtube.com/@top-providers',
+                ),
+            ),
+            array(
+                '@type'     => 'WebSite',
+                '@id'       => $home . '#website',
+                'name'      => 'Top Providers',
+                'url'       => $home,
+                'publisher' => array('@id' => $org_id),
+                'inLanguage' => 'en-US',
+            ),
+        ),
+    ));
 }
-add_action('wp_head', 'tp_theme_website_schema', 2);
+add_action('wp_head', 'tp_theme_site_entity_schema', 1);
+
+add_filter('wpseo_json_ld_output', '__return_false');
 
 /**
  * Add BreadcrumbList Schema — now applies to pages, taxonomy, and archives.
@@ -703,6 +917,7 @@ function tp_theme_about_contact_schema() {
     $desc     = $is_about
         ? 'Learn how Top Providers ranks and reviews the best TV, Internet, and home service providers.'
         : 'Contact the Top Providers team for help comparing internet, TV, and home service providers.';
+    $dates    = tp_theme_date_schema_values(get_the_ID());
 
     tp_theme_echo_jsonld(array(
         "@context" => "https://schema.org",
@@ -713,7 +928,11 @@ function tp_theme_about_contact_schema() {
         "inLanguage"  => "en-US",
         "isPartOf"    => array(
             "@id" => esc_url(home_url('/')) . "#website"
-        )
+        ),
+        "about"       => array(
+            "@id" => esc_url(home_url('/')) . "#organization"
+        ),
+        "dateModified" => isset($dates['dateModified']) ? $dates['dateModified'] : null
     ));
 }
 add_action('wp_head', 'tp_theme_about_contact_schema', 11);

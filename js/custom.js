@@ -1,43 +1,49 @@
 // ajax-search.js
 jQuery(document).ready(function ($) {
-    $('#searchProvidersForm').on('submit', function (e) {
-        e.preventDefault(); // Prevent default form submission
+    $('.tp-search-form input[name="provider-types"]').on('change', function () {
+        $(this).closest('form').find('input[name="customSelect"]').val(this.value);
+    });
 
-        // Collect form data
-        var zipCode = $('#zip_code').val();
-        const typeValue = document.getElementById('customSelect').value;
-        const type = typeValue.replace(" ", "-").toLowerCase()
+    $('.tp-search-form').on('submit', function (e) {
+        e.preventDefault();
 
-        // Perform the AJAX request
+        var form = $(this);
+        var zipCode = form.find('input[name="zip_code"]').val();
+        var typeValue = form.find('input[name="customSelect"]').val() || 'internet';
+        var type = typeValue.replace(/ /g, '-').toLowerCase();
+
+        if (!/^\d{5}$/.test(zipCode)) {
+            form.find('input[name="zip_code"]').trigger('focus');
+            return;
+        }
+
         $.ajax({
-            url: ajaxurl, // The URL for AJAX requests in WordPress
+            url: ajaxurl,
             type: 'POST',
             data: {
                 action: 'search_providers',
                 zip_code: zipCode,
-                type:   type
-,
-            },
-            beforeSend: function () {
-                // You can add a loader or other actions here
+                type: type
             },
             success: function (response) {
-                let url = response[0].slug;
-               
-                window.location = url;
+                if (response && response[0] && response[0].slug) {
+                    window.location = response[0].slug;
+                }
             },
             error: function (xhr, status, error) {
                 console.error('AJAX Error: ' + status + ' - ' + error);
             }
         });
     });
-    $('.providers_slides').slick({
-        slidesToShow: 5,
-        slidesToScroll: 2,
-        autoplay: true,
-        autoplaySpeed: 2000,
-        arrows: false,
-        dots: false
-    });
-});
 
+    if ($.fn.slick && $('.providers_slides').length) {
+        $('.providers_slides').slick({
+            slidesToShow: 5,
+            slidesToScroll: 2,
+            autoplay: true,
+            autoplaySpeed: 2000,
+            arrows: false,
+            dots: false
+        });
+    }
+});

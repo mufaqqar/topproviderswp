@@ -106,10 +106,10 @@ wp_reset_postdata();
             <p class="p-3 px-4 flex items-center">More About</p>
         </div>
         <div class="border">
-            <p id="more_1" class="p-3 px-4 flex items-center"><a href="#">Details Plans</a></p>
+            <p id="more_1" class="p-3 px-4 flex items-center"><a href="<?php echo esc_url(home_url('/internet/')); ?>">Browse Plans</a></p>
         </div>
         <div class="border">
-            <p id="more_2" class="p-3 px-4 flex items-center"><a href="#">Details Plans</a></p>
+            <p id="more_2" class="p-3 px-4 flex items-center"><a href="<?php echo esc_url(home_url('/internet/')); ?>">Browse Plans</a></p>
         </div>
     </section>
 </div>
@@ -160,8 +160,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 moreLink.href = provider.permalink;
                 moreLink.textContent = 'Details Plans';
             } else {
-                moreLink.href = '#';
-                moreLink.textContent = '-';
+                moreLink.href = '<?php echo esc_url(home_url('/internet/')); ?>';
+                moreLink.textContent = 'Browse Plans';
             }
         }
 

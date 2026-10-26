@@ -46,7 +46,7 @@ if ($hero_style === 'gray') : ?>
     </div>
     <?php if ($hero_deco) : ?>
     <img src="<?php echo esc_url(get_template_directory_uri()); ?>/images/business.webp" alt="" class="deco-business"/>
-    <img src="<?php echo esc_url(get_template_directory_uri()); ?>/images/wave1.png" alt="" class="deco-wave"/>
+    <img src="<?php echo esc_url(get_template_directory_uri()); ?>/images/wave1.webp" alt="" class="deco-wave"/>
     <?php endif; ?>
 </section>
 <?php elseif ($hero_style === 'solid') : ?>
