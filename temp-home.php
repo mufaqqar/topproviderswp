@@ -46,7 +46,7 @@ $providers_query = new WP_Query($argsForProvider);
       <div class="mt-7">
         <?php get_template_part('template-parts/search', 'form'); ?>
       </div>
-      <p class="mt-4 text-sm text-white/80">Free, no obligation. Last updated <?php echo esc_html(get_the_modified_date('F Y')); ?> &middot; <a href="<?php echo esc_url(home_url('/about-us/#methodology')); ?>" class="underline">How we rank providers</a></p>
+      <p class="mt-4 text-sm text-white/80">Free, no obligation. Last updated <?php echo esc_html(wp_date('F Y')); ?> &middot; <a href="<?php echo esc_url(home_url('/about-us/#methodology')); ?>" class="underline">How we rank providers</a></p>
     </div>
   </div>
 </section>
@@ -319,7 +319,7 @@ $providers_query = new WP_Query($argsForProvider);
                 <p class="text-base text-[#464646]">We review provider pages on a regular schedule and update them when plans, prices, or availability change. Spotted an error? <a class="underline" href="<?php echo esc_url(home_url('/contact-us/')); ?>">Tell us</a>.</p>
             </div>
         </div>
-        <p class="text-center text-sm text-[#4E4E4E] mt-8">Reviewed by the Top Providers Editorial Team &middot; Last updated <?php echo esc_html(get_the_modified_date('F j, Y')); ?> &middot; <a class="underline" href="<?php echo esc_url(home_url('/about-us/#methodology')); ?>">Read our full methodology</a></p>
+        <p class="text-center text-sm text-[#4E4E4E] mt-8">Reviewed by the Top Providers Editorial Team &middot; Last updated <?php echo esc_html(wp_date('F j, Y')); ?> &middot; <a class="underline" href="<?php echo esc_url(home_url('/about-us/#methodology')); ?>">Read our full methodology</a></p>
     </div>
 </section>
 <!-- Blogs post  -->
